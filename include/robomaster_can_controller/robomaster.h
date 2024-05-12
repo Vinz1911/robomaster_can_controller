@@ -38,6 +38,10 @@ private:
      */
     uint16_t counter_led_;
 
+    uint16_t counter_gimbal_;
+
+    uint16_t counter_blaster_;
+
     /**
      * @brief The boot sequence to configure the RoboMasterState messages.
      */
@@ -87,6 +91,10 @@ public:
      * @param rr Rear right wheel in rpm.
      */
     void commandWheelRPM(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr);
+
+    void commandGimbal(const int16_t y, const int16_t z);
+
+    void commandBlaster();
 
     /**
      * @brief Stop the RoboMaster with zero velocities.

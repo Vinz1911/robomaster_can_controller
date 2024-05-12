@@ -48,6 +48,8 @@ PYBIND11_MODULE(robomaster_can_controller_py, m) {
     py_robomaster.def("is_running", &RoboMaster::isRunning);
     py_robomaster.def("wheel_rpm", &RoboMaster::commandWheelRPM, pybind11::arg("fr"), pybind11::arg("fl"), pybind11::arg("rl"), pybind11::arg("rr"));
     py_robomaster.def("velocity", &RoboMaster::commandVelocity, pybind11::arg("x"), pybind11::arg("y"), pybind11::arg("angular"));
+    py_robomaster.def("gimbal", &RoboMaster::commandGimbal, pybind11::arg("y"), pybind11::arg("z"));
+    py_robomaster.def("blaster", &RoboMaster::commandBlaster);
     py_robomaster.def("stop", &RoboMaster::commandStop);
     py_robomaster.def("led_on", [](RoboMaster &robomaster, const int r, const int g, const int b){
         robomaster.commandLedOn(LED_MASK_ALL, clipColor(r), clipColor(g), clipColor(b));

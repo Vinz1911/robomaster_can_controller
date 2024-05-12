@@ -12,7 +12,7 @@ namespace robomaster_can_controller
 {
 
 
-RoboMaster::RoboMaster():counter_drive_(0), counter_led_(0)
+RoboMaster::RoboMaster():counter_drive_(0), counter_led_(0), counter_gimbal_(0)
 {
     this->handler_.bindCallbackDataRoboMasterState(std::bind(&RoboMaster::decodeDataRoboMasterState, this, std::placeholders::_1));
 }
@@ -86,6 +86,26 @@ void RoboMaster::commandVelocity(const float x, const float y, const float z)
     msg.setValueFloat( 3, cx);
     msg.setValueFloat( 7, cy);
     msg.setValueFloat(11, cz);
+
+    this->handler_.pushMessage(std::move(msg));
+}
+
+void RoboMaster::commandGimbal(const int16_t y, const int16_t z)
+{
+    const int16_t cy = clip<int16_t>(y, -1024, 1024);
+    const int16_t cz = clip<int16_t>(z, -1024, 1024);
+
+    Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x0409, this->counter_gimbal_++, { 0x00, 0x04, 0x69, 0x08, 0x05, 0x00, 0x00, 0x00, 0x00 });
+
+    msg.setValueInt16(5, cy);
+    msg.setValueInt16(7, cz);
+
+    this->handler_.pushMessage(std::move(msg));
+}
+
+void RoboMaster::commandBlaster()
+{
+    Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x1709, this->counter_gimbal_++, { 0x00, 0x3f, 0x51, 0x11 });
 
     this->handler_.pushMessage(std::move(msg));
 }
