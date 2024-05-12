@@ -17,64 +17,74 @@
 #include <condition_variable>
 #include <functional>
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 /**
  * @brief This class handles the incoming and outcoming RoboMaster message over the can bus.
  * 
  */
-class Handler
-{
+class Handler {
 private:
     /**
      * @brief CanSocket class for the can bus io.
      */
     CanSocket can_socket_;
+
     /**
      * @brief Thread for reading on the can socket and put valid messages in the receiver queue.
      */
     std::thread thread_receiver_;
+
     /**
      * @brief Thread for sending messages on the can bus. Also triggers the 10 ms heartbeat to keept the RoboMaster alive.
      */
     std::thread thread_sender_;
+
     /**
-     * @brief Thread for processiong the messages in receiver queue and trigger the callback function for RoboMaster states. 
+     * @brief Thread for processing the messages in receiver queue and trigger the callback function for RoboMaster states.
      */
     std::thread thread_handler_;
+
     /**
      * @brief Receiver queue for received messages.
      */
     QueueMsg queue_receiver_;
+
     /**
-     * @brief Senmder queue for seding messages.
+     * @brief Sender queue for sending messages.
      */
     QueueMsg queue_sender_;
+
     /**
      * @brief conditional variable for the handler thread, when new messages put in the receiver queue.
      */
     std::condition_variable cv_handler_;
+
     /**
      * @brief Mutex of the handler conditional variable.
      */
     std::mutex cv_handler_mutex_;
+
     /**
-     * @brief Conditional varaible for the sender thread, when new messages put into the sender queue.
+     * @brief Conditional variable for the sender thread, when new messages put into the sender queue.
      */
     std::condition_variable cv_sender_;
+
     /**
      * @brief Mutex of the sender conditional variable.
      */
     std::mutex cv_sender_mutex_;
+
     /**
      * @brief callback function for the data of the robomaster motion controller.
      */
     std::function<void(const Message&)> callback_data_robomaster_state_;
+
     /**
      * @brief Flag of the initilaisation of the handler class. True when the can socket was successful initialised.
      */
     bool flag_initialised_;
+
     /**
      * @brief Flag then the threads are running to prevent multiply starts.
      */

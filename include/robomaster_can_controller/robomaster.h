@@ -11,35 +11,42 @@
 #include "definitions.h"
 #include "data.h"
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 /**
- * @brief This class manage the controll of the RoboMaster vai can socket.
+ * @brief This class manage the control of the RoboMaster via can socket.
  * 
  */
-class RoboMaster
-{
+class RoboMaster {
 private:
     /**
-     * @brief Handler class for the RoboMaster message io and thread managment.
+     * @brief Handler class for the RoboMaster message io and thread management.
      */
     Handler handler_;
+
     /**
      * @brief Callbackfunction to trigger when new RoboMasterState data arte received.
      */
     std::function<void(const DataRoboMasterState &)> callback_data_robomaster_state_;
-    /**
-     * @brief Counter for the message sequence of the led messages.
-     */
-    uint16_t counter_drive_;
+
     /**
      * @brief Counter for the message sequence of the drive messages.
      */
+    uint16_t counter_drive_;
+
+    /**
+     * @brief Counter for the message sequence of the led messages.
+     */
     uint16_t counter_led_;
 
+    /**
+    * @brief Counter for the message sequence of the gimbal messages.
+    */
     uint16_t counter_gimbal_;
 
+    /**
+    * @brief Counter for the message sequence of the blaster messages.
+    */
     uint16_t counter_blaster_;
 
     /**
@@ -53,6 +60,7 @@ private:
      * @param msg The RoboMasterState message.
      */
     void decodeDataRoboMasterState(const Message &msg);
+
 public:
     /**
      * @brief Constructor of the RoboMaster class.
@@ -83,7 +91,7 @@ public:
     void commandVelocity(const float x, const float y, const float z);
 
     /**
-     * @brief Controll each individuell wheel of the RoboMaster in rpm.
+     * @brief Control each individual wheel of the RoboMaster in rpm.
      * 
      * @param fr Front right wheel in rpm.
      * @param fl Front left wheel in rpm.
@@ -92,8 +100,17 @@ public:
      */
     void commandWheelRPM(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr);
 
+    /**
+     * @brief Control the gimbal of the RoboMaster
+     *
+     * @param y Angular y velocity in radiant/s
+     * @param z  Angular z velocity in radiant/s
+     */
     void commandGimbal(const int16_t y, const int16_t z);
 
+    /**
+     * @brief Fire the blaster of the RoboMaster
+     */
     void commandBlaster();
 
     /**

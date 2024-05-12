@@ -13,13 +13,12 @@
 #include <sstream>
 #include <vector>
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 /**
  * @brief Clip the value in the given range from min to max.
  * 
- * @tparam T Template for the spezific data type.
+ * @tparam T Template for the specific data type.
  * @param value Value to clip.
  * @param min Min value.
  * @param max Max value.
@@ -54,7 +53,7 @@ uint16_t calculateCRC16(const uint8_t *data, const size_t length);
  * 
  * @param data Input data.
  * @param length Length of the data.
- * @return std::string Data as string visuallization. 
+ * @return std::string Data as string visualization.
  */
 std::string stringDataAsHex(const uint8_t * data, const size_t length);
 
@@ -67,7 +66,7 @@ std::string stringDataAsHex(const uint8_t * data, const size_t length);
 std::string stringDataAsHex(const std::vector<uint8_t> &data);
 
 /**
- * @brief Put the two bytes from littlen endian in the right host platform order.
+ * @brief Put the two bytes from little endian in the right host platform order.
  * 
  * @param lsb Least significant bit.
  * @param msb Most significant bit.

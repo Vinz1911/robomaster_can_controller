@@ -17,14 +17,12 @@
 #include <linux/can/raw.h>
 #include <string>
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 /**
  * @brief This class manage the the io of the can bus.
  */
-class CanSocket
-{
+class CanSocket {
 private:
     /**
      * @brief The Socket for the CanBus.
@@ -40,6 +38,7 @@ private:
      * @brief Struct for the Can Bus address.
      */
     struct sockaddr_can addr_;
+
 public:
     /**
      * @brief Construct the the CanSocket object.
@@ -87,7 +86,7 @@ public:
     bool sendFrame(const uint32_t id, const uint8_t data[8], const size_t length);
     
     /**
-     * @brief Read the next incomming can frame from the can socket. This function is blocking until the timeout is reached.
+     * @brief Read the next incoming can frame from the can socket. This function is blocking until the timeout is reached.
      * 
      * @param id The device id.
      * @param data The data of the can frame.

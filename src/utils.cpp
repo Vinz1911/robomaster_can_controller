@@ -7,8 +7,7 @@
 #include "robomaster_can_controller/utils.h"
 #include <iomanip>
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 const uint8_t TABLE_CRC8[] = {
     0x00, 0x5e, 0xbc, 0xe2, 0x61, 0x3f, 0xdd, 0x83, 0xc2, 0x9c, 0x7e, 0x20, 0xa3, 0xfd, 0x1f, 0x41,
@@ -64,71 +63,43 @@ const static uint16_t TABLE_CRC16[] = {
     0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78,
 };
 
-uint8_t calculateCRC8(const uint8_t *data, const size_t length)
-{
+uint8_t calculateCRC8(const uint8_t *data, const size_t length) {
     uint8_t crc = 0x77;
-    for (size_t i = 0; i < length; i++)
-    {
-        crc = TABLE_CRC8[crc ^ data[i]];
-    }
+    for (size_t i = 0; i < length; i++) { crc = TABLE_CRC8[crc ^ data[i]]; }
     return crc;
 }
 
-uint16_t calculateCRC16(const uint8_t *data, const size_t length)
-{
+uint16_t calculateCRC16(const uint8_t *data, const size_t length) {
     uint16_t crc = 0x3692;
-    for (size_t i = 0; i < length; i++)
-    {
-        crc = ((crc >> 8) & 0xff) ^ TABLE_CRC16[(crc ^ data[i]) & 0xff];
-    }
+    for (size_t i = 0; i < length; i++) { crc = ((crc >> 8) & 0xff) ^ TABLE_CRC16[(crc ^ data[i]) & 0xff]; }
     return crc;
 }
 
-std::string stringDataAsHex(const uint8_t * data, const size_t length)
-{
+std::string stringDataAsHex(const uint8_t * data, const size_t length) {
     std::stringstream ss;
-
-    for (size_t i = 0; i < length; i++)
-    {
+    for (size_t i = 0; i < length; i++) {
         ss << std::setfill('0') << std::setw(2) << std::hex << static_cast<uint32_t>(data[i]);
-
-        if (i < length - 1)
-        {
-            ss << ' ';
-        }
+        if (i < length - 1) { ss << ' '; }
     }
-    
     return ss.str();
 }
 
-std::string stringDataAsHex(const std::vector<uint8_t> &data)
-{
+std::string stringDataAsHex(const std::vector<uint8_t> &data) {
     std::stringstream ss;
-
-    for (size_t i = 0; i < data.size(); i++)
-    {
+    for (size_t i = 0; i < data.size(); i++) {
         ss << std::setfill('0') << std::setw(2) << std::hex << static_cast<uint32_t>(data[i]);
-
-        if (i < data.size() - 1)
-        {
-            ss << ' ';
-        }
+        if (i < data.size() - 1) { ss << ' '; }
     }
-    
     return ss.str();
 }
 
-uint16_t littleToUint16(const uint8_t lsb, const uint8_t msb)
-{
+uint16_t littleToUint16(const uint8_t lsb, const uint8_t msb) {
     return (static_cast<uint16_t>(msb) << 8) | static_cast<uint16_t>(lsb);
 }
 
-std::string stringUint16ToHex(const uint16_t value)
-{
+std::string stringUint16ToHex(const uint16_t value) {
     std::stringstream ss;
-
     ss << std::setfill('0') << std::setw(4) << std::hex << value;
-    
     return ss.str();
 }
 

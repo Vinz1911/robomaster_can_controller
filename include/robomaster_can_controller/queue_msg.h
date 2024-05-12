@@ -11,20 +11,19 @@
 #include <queue>
 #include "message.h"
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 /**
  * @brief This class is queue for RoboMaster messages which is protected by a mutex.
  */
-class QueueMsg
-{
+class QueueMsg {
 private:
     /**
      * @brief The message qeueu.
      * 
      */
     std::queue<Message> queue_;
+
     /**
      * @brief The mutex to proteced the critical section.
      */
@@ -43,7 +42,7 @@ public:
      */
     void push(const Message &msg);
 
-        /**
+    /**
      * @brief Push a Message into the qeueu. If the maximal queue size is reached the front message will be pop.
      * 
      * @param msg A RoboMaster message.

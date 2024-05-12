@@ -12,35 +12,38 @@
 #include <vector>
 #include <ostream>
 
-namespace robomaster_can_controller
-{
+namespace robomaster_can_controller {
 
 /**
  * @brief This class defined the a RoboMaster message. The information values in the messages are saved in little endian. 
  */
-class Message
-{
+class Message {
 private:
     /**
      * @brief Flag for a valid message. This includes when the message is long enough with header and the right crc.
      */
+
     bool is_valid_;
     /**
      * @brief The can device id for this message.
      */
+
     uint32_t device_id_;
     /**
      * @brief The sqeuence or counter for the message.
      */
+
     uint16_t sequence_;
     /**
      * @brief The type of the message. Every message from the intelli controller or motion controller has a fixed value which seems to be a type or command id.
      */
+
     uint16_t type_;
     /**
      * @brief The payload of the message which contains the information.
      */
     std::vector<uint8_t> payload_;
+
 public:
     /**
      * @brief Construct a new Message object from the given raw data.
@@ -239,4 +242,4 @@ public:
 
 } // namespace robomaster_can_controller
 
-#endif // ROBOMASTER_CAN_CONTROLLER_ROBOTMASTER_H_
+#endif // ROBOMASTER_CAN_CONTROLLER_MESSAGE_H_
