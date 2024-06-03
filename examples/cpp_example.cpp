@@ -17,7 +17,7 @@ void callback(const robomaster_can_controller::DataRoboMasterState &state) {
 /**
  * @brief Get the color value for a rainbow scale for a given position.
  * 
- * @param position The position of the reinbow scale.
+ * @param position The position of the rainbow scale.
  * @param r Color red.
  * @param g Color green.
  * @param b Color blue.

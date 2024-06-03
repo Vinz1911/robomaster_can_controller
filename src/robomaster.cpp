@@ -42,10 +42,10 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::commandWheelRPM(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr) {
-        const int16_t w1 = clip<int16_t>( fr, -1000, 1000);
+        const int16_t w1 = clip<int16_t>(fr, -1000, 1000);
         const int16_t w2 = clip<int16_t>(-fl, -1000, 1000);
         const int16_t w3 = clip<int16_t>(-rl, -1000, 1000);
-        const int16_t w4 = clip<int16_t>( rr, -1000, 1000);
+        const int16_t w4 = clip<int16_t>(rr, -1000, 1000);
 
         Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0xc3c9, this->counter_drive_++, { 0x40, 0x3F, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.setValueInt16(3, w1);
@@ -99,27 +99,27 @@ namespace robomaster_can_controller {
 
     void RoboMaster::commandLedOff(const uint16_t mask) {
         Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        msg.setValueUInt16 ( 3, 0x70);
+        msg.setValueUInt16 (3, 0x70);
         msg.setValueUInt16(14, mask);
         this->handler_.pushMessage(std::move(msg));
     }
 
     void RoboMaster::commandLedOn( const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b) {
         Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        msg.setValueUInt16( 3, 0x71); // effect mode on
-        msg.setValueUInt8 ( 6, r);
-        msg.setValueUInt8 ( 7, g);
-        msg.setValueUInt8 ( 8, b);
+        msg.setValueUInt16(3, 0x71); // effect mode on
+        msg.setValueUInt8 (6, r);
+        msg.setValueUInt8 (7, g);
+        msg.setValueUInt8 (8, b);
         msg.setValueUInt16(14, mask);
         this->handler_.pushMessage(std::move(msg));
     }
 
     void RoboMaster::commandLedBreath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_rise, const uint16_t t_down) {
         Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        msg.setValueUInt16 ( 3, 0x72); // effect mode breath
-        msg.setValueUInt8 ( 6, r);
-        msg.setValueUInt8 ( 7, g);
-        msg.setValueUInt8 ( 8, b);
+        msg.setValueUInt16 (3, 0x72); // effect mode breath
+        msg.setValueUInt8 (6, r);
+        msg.setValueUInt8 (7, g);
+        msg.setValueUInt8 (8, b);
         msg.setValueUInt16(10, t_rise);
         msg.setValueUInt16(12, t_down);
         msg.setValueUInt16(14, mask);
@@ -139,10 +139,10 @@ namespace robomaster_can_controller {
 
     void RoboMaster::commandLedFlash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_on, const uint16_t t_off) {
         Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        msg.setValueUInt16( 3, 0x73);
-        msg.setValueUInt8 ( 6, r);
-        msg.setValueUInt8 ( 7, g);
-        msg.setValueUInt8 ( 8, b);
+        msg.setValueUInt16(3, 0x73);
+        msg.setValueUInt8 (6, r);
+        msg.setValueUInt8 (7, g);
+        msg.setValueUInt8 (8, b);
         msg.setValueUInt16(10, t_on);
         msg.setValueUInt16(12, t_off);
         msg.setValueUInt16(14, mask);
