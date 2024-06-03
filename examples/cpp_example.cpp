@@ -85,14 +85,14 @@ int main() {
         // Let the robomaster drive forward with increasing wheel speed and increase set led brightness.
         for (size_t i = 0; i < 100; i++) {
             robomaster.commandLedOn(LED_MASK_ALL, i * 2, i * 2, i * 2);
-            robomaster.commandWheelRPM(i * 2, i * 2, i * 2, i * 2);
+            robomaster.commandWheelRPM(int16_t (i * 2), int16_t (i * 2), int16_t (i * 2), int16_t (i * 2));
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
 
         // Slow the robomaster and decrease the led light. 
         for (size_t i = 100; i --> 0;) {
             robomaster.commandLedOn(LED_MASK_ALL, i * 2, i * 2, i * 2);
-            robomaster.commandWheelRPM(i * 2, i * 2, i * 2, i * 2);
+            robomaster.commandWheelRPM(int16_t (i * 2), int16_t (i * 2), int16_t (i * 2), int16_t (i * 2));
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
 
