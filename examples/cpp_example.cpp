@@ -112,7 +112,6 @@ int main() {
 
         return 0;
     }
-
-    std::cerr << "Could not init the robomaster!" << std::endl;
+    std::printf("[Example]: Robomaster initialization failed");
     return 1;
 }

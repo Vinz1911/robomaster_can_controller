@@ -71,7 +71,7 @@ namespace robomaster_can_controller {
          * @brief Open the can socket by the given can interface name.
          *
          * @param can_interface The name of the can interface.
-         * @return true, when the socket is open sucessfully.
+         * @return true, when the socket is open successfully.
          * @return false, when this socket failed to open.
          */
         bool init(const std::string &can_interface);

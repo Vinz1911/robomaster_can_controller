@@ -10,7 +10,7 @@
 #ifndef ROBOMASTER_CAN_CONTROLLER_DEFINITIONS_H_
 #define ROBOMASTER_CAN_CONTROLLER_DEFINITIONS_H_
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 
 namespace robomaster_can_controller {

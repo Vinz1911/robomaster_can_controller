@@ -9,9 +9,8 @@
 
 #include "robomaster_can_controller/can_socket.h"
 
-#include <string.h>
-#include <iostream>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 
 namespace robomaster_can_controller {
     CanSocket::CanSocket(): socket_(0) {
@@ -49,7 +48,7 @@ namespace robomaster_can_controller {
 
         memcpy(this->ifr_.ifr_name, can_interface.c_str(), can_interface.size());
         if(ioctl(this->socket_, SIOGIFINDEX, &this->ifr_) < 0) {
-            std::printf("[CAN]: Failed to request interface %s\n", can_interface);
+            std::printf("[CAN]: Failed to request interface %s\n", can_interface.c_str());
             return false;
         }
 
