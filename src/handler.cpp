@@ -4,6 +4,9 @@
 // For details on the licensing terms, see the LICENSE file.
 // SPDX-License-Identifier: MIT
 
+// Modifications by Vinzenz Weist
+// Copyright (c) 2024 Vinzenz Weist
+
 #include "robomaster_can_controller/handler.h"
 #include "robomaster_can_controller/utils.h"
 #include "robomaster_can_controller/definitions.h"
@@ -42,7 +45,7 @@ Handler::~Handler() {
 
 bool Handler::init(const std::string &can_interface) {
     if (this->flag_initialised_) {
-        std::cerr << "[Handler::init]: Handler is already running!" << std::endl;
+        std::printf("[Handler]: Handler already running\n");
         return false;
     } else if(this->can_socket_.init(can_interface)) {
         this->can_socket_.setTimeout(0.1);
@@ -52,7 +55,7 @@ bool Handler::init(const std::string &can_interface) {
         this->thread_handler_ = std::thread(&Handler::runHandlerThread, this);
         return true;
     } else {
-        std::cerr << "[Handler::init]: Could not init Handler!" << std::endl;
+        std::printf("[Handler]: Handler initialization failure\n");
         return false;
     }
 }
@@ -66,7 +69,6 @@ bool Handler::sendMessage(const uint32_t id, const std::vector<uint8_t> &data) {
     for (size_t i = 0; i < data.size(); i += 8) {
         const size_t frame_length = std::min(static_cast<size_t>(8), data.size() - i);
         std::copy(data.begin() + i, data.begin() + i + frame_length, frame_data);
-
         if(!this->can_socket_.sendFrame(id, frame_data, frame_length)) { return false; }
     }
     return true;
@@ -79,17 +81,17 @@ bool Handler::sendMessage(const Message &msg) {
 void Handler::runReceiverThread() {
     struct msg_robomaster{
         std::vector<uint8_t> buffer;
-        size_t length = 0; // if lentgh is zero, searching for the header
+        size_t length = 0;
     };
 
-    std::map<uint32_t, msg_robomaster> map_msg_robomaster{
-            //{DEVICE_ID_INTELLI_CONTROLLER, msg_robomaster()},
-            {DEVICE_ID_MOTION_CONTROLLER, msg_robomaster()}
-            //{DEVICE_ID_GIMBAL, msg_robomaster()},
-            //{DEVICE_ID_HIT_DETECTOR_1, msg_robomaster()},
-            //{DEVICE_ID_HIT_DETECTOR_2, msg_robomaster()},
-            //{DEVICE_ID_HIT_DETECTOR_3, msg_robomaster()},
-            //{DEVICE_ID_HIT_DETECTOR_4, msg_robomaster()}
+    std::map<uint32_t, msg_robomaster> map_msg_robomaster {
+            //{ DEVICE_ID_INTELLI_CONTROLLER, msg_robomaster() },
+            { DEVICE_ID_MOTION_CONTROLLER, msg_robomaster() }
+            //{ DEVICE_ID_GIMBAL, msg_robomaster() },
+            //{ DEVICE_ID_HIT_DETECTOR_1, msg_robomaster() },
+            //{ DEVICE_ID_HIT_DETECTOR_2, msg_robomaster() },
+            //{ DEVICE_ID_HIT_DETECTOR_3, msg_robomaster() },
+            //{ DEVICE_ID_HIT_DETECTOR_4, msg_robomaster() }
     };
 
     uint32_t frame_id;
@@ -123,7 +125,7 @@ void Handler::runReceiverThread() {
                     msg.length = msg.buffer[1];
                     break;
                 } else {
-                    std::cout << "[Handler::runReceiverThread]: crc8 failure" << std::endl;
+                    // std::printf("[Handler]: CRC8 failure\n");
                     iter++;
                 }
             }
@@ -134,7 +136,7 @@ void Handler::runReceiverThread() {
                 this->queue_receiver_.push(Message(frame_id, std::vector<uint8_t>(std::cbegin(msg.buffer), std::cbegin(msg.buffer) + msg.length)));
                 this->cv_handler_.notify_one();
             } else {
-                std::cerr << "[Handler::runReceiverThread]: crc16 failure" << std::endl;
+                // std::printf("[Handler]: CRC16 failure\n");
             }
 
             msg.buffer.erase(std::cbegin(msg.buffer), std::cbegin(msg.buffer) + msg.length);
@@ -144,7 +146,7 @@ void Handler::runReceiverThread() {
 
     if(error_counter != 0) {
         this->flag_stop_ = true;
-        std::cerr << "[Handler::runReceiverThread]: Error frame!" << std::endl;
+        std::printf("[Handler]: Receiver frame failure\n");
     }
 }
 
@@ -156,7 +158,7 @@ void Handler::runSenderThread() {
     while (error_counter <= STD_MAX_ERROR_COUNT && !this->flag_stop_) {
         // check for the 10ms heartbeat.
         if (heartbeat_10ms_time_point < std::chrono::high_resolution_clock::now()) {
-            if(this->sendMessage(Message(DEVICE_ID_INTELLI_CONTROLLER, 0xc309, heartbeat_10ms_counter++, {0x00, 0x3f, 0x60, 0x00, 0x04, 0x20, 0x00, 0x01, 0x00, 0x40, 0x00, 0x02, 0x10, 0x00, 0x03, 0x00, 0x00}))) {
+            if(this->sendMessage(Message(DEVICE_ID_INTELLI_CONTROLLER, 0xc309, heartbeat_10ms_counter++, { 0x00, 0x3f, 0x60, 0x00, 0x04, 0x20, 0x00, 0x01, 0x00, 0x40, 0x00, 0x02, 0x10, 0x00, 0x03, 0x00, 0x00 }))) {
                 heartbeat_10ms_time_point += STD_HEARTBEAT_TIME;
                 error_counter = 0;
             } else {
@@ -175,7 +177,7 @@ void Handler::runSenderThread() {
 
     if(error_counter != 0) {
         this->flag_stop_ = true;
-        std::cerr << "[Handler][runSenderThread]: Error counter e!" << std::endl;
+        std::printf("[Handler]: Transmitter frame failure\n");
     }
 }
 

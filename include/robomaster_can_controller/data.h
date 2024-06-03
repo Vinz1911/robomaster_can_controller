@@ -4,10 +4,13 @@
 // For details on the licensing terms, see the LICENSE file.
 // SPDX-License-Identifier: MIT
 
+// Modifications by Vinzenz Weist
+// Copyright (c) 2024 Vinzenz Weist
+
 #ifndef ROBOMASTER_CAN_CONTROLLER_DATA_H_
 #define ROBOMASTER_CAN_CONTROLLER_DATA_H_
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 #include <ostream>
 #include <array>
@@ -128,7 +131,7 @@ struct DataBattery {
     /**
      * @brief Temperature in 10*e-1.
      */
-    int16_t temperature = 0;
+    uint16_t temperature = 0;
 
     /**
      * @brief Current in milli ampere.

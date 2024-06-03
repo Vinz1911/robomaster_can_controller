@@ -4,6 +4,9 @@
 // For details on the licensing terms, see the LICENSE file.
 // SPDX-License-Identifier: MIT
 
+// Modifications by Vinzenz Weist
+// Copyright (c) 2024 Vinzenz Weist
+
 #ifndef ROBOMASTER_CAN_CONTROLLER_QUEUE_MSG_H_
 #define ROBOMASTER_CAN_CONTROLLER_QUEUE_MSG_H_
 

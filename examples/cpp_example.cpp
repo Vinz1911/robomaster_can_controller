@@ -10,8 +10,7 @@
 /**
  * @brief Callback to print the state of the RoboMaster.
  */
-void callback(const robomaster_can_controller::DataRoboMasterState &state)
-{
+void callback(const robomaster_can_controller::DataRoboMasterState &state) {
     std::cout << state << std::endl;
 }
 
@@ -28,16 +27,12 @@ void rainbow(uint8_t position, uint8_t &r, uint8_t &g, uint8_t &b) {
         r = position * 3;
         g = 255 - position * 3;
         b = 0;
-    }
-    else if(position < 170)  
-    {
+    } else if(position < 170) {
         position -= 85;
         r = 255 - position * 3;
         g = 0;
         b = position * 3;
-    } 
-    else 
-    {
+    } else {
         position -= 170;
         r = 0;
         g = position * 3;
@@ -48,8 +43,7 @@ void rainbow(uint8_t position, uint8_t &r, uint8_t &g, uint8_t &b) {
 /**
  * Example for the usage of the robomaster_can_controller library.
  */
-int main()
-{
+int main() {
     // Using namespace for simplicity
     using namespace robomaster_can_controller;
 
@@ -57,22 +51,20 @@ int main()
     RoboMaster robomaster;
 
     // Init the robomaster with the can0 device als default.
-    if(robomaster.init())
-    {
+    if(robomaster.init()) {
         // bind the callback function to print state of the robomaster like wheel position, imu data, etc.
         robomaster.bindCallbackDataRobotMasterState(callback);
 
         // Enable the robomaster to execute drive commands.
         robomaster.commandEnable();
 
-        // CAUTION: Sleep for a small time to not overfill the can bus communication. 
+        // CAUTION: Sleep for a short period to not overfill the can bus communication.
         std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
         uint8_t r,g,b;
         
-        // A small presentation of the LED breath effekt.
-        for (size_t i = 0; i < 512; i += 20)
-        {
+        // A small presentation of the LED breath effect.
+        for (size_t i = 0; i < 512; i += 20) {
             rainbow(i,r,g,b);
             robomaster.commandLedBreath(LED_MASK_FRONT, r,g,b, float(0.4), float(0.0));
             std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 
@@ -90,19 +82,17 @@ int main()
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     
-        // Let the robomaster drive forward with incresing wheel speed and increase set led brightness.
-        for (size_t i = 0; i < 100; i++)
-        {
-            robomaster.commandLedOn(LED_MASK_ALL, i*2, i*2, i*2);
-            robomaster.commandWheelRPM(i*2, i*2, i*2, i*2);
+        // Let the robomaster drive forward with increasing wheel speed and increase set led brightness.
+        for (size_t i = 0; i < 100; i++) {
+            robomaster.commandLedOn(LED_MASK_ALL, i * 2, i * 2, i * 2);
+            robomaster.commandWheelRPM(i * 2, i * 2, i * 2, i * 2);
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
 
         // Slow the robomaster and decrease the led light. 
-        for (size_t i = 100; i --> 0;)
-        {
-            robomaster.commandLedOn(LED_MASK_ALL, i*2, i*2, i*2);
-            robomaster.commandWheelRPM(i*2, i*2, i*2, i*2);
+        for (size_t i = 100; i --> 0;) {
+            robomaster.commandLedOn(LED_MASK_ALL, i * 2, i * 2, i * 2);
+            robomaster.commandWheelRPM(i * 2, i * 2, i * 2, i * 2);
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
 
@@ -124,6 +114,5 @@ int main()
     }
 
     std::cerr << "Could not init the robomaster!" << std::endl;
-
     return 1;
 }

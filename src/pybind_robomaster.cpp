@@ -4,6 +4,9 @@
 // For details on the licensing terms, see the LICENSE file.
 // SPDX-License-Identifier: MIT
 
+// Modifications by Vinzenz Weist
+// Copyright (c) 2024 Vinzenz Weist
+
 #include "pybind11/pybind11.h"
 #include "pybind11/functional.h"
 #include <pybind11/stl.h>
@@ -20,10 +23,7 @@ namespace robomaster_can_controller
  * @param value Integer value to clip.
  * @return The clipt uint_8 value.
  */
-uint8_t clipColor(const int value)
-{
-    return static_cast<uint8_t>(std::min(std::max(0, value), 255));
-}
+uint8_t clipColor(const int value) { return static_cast<uint8_t>(std::min(std::max(0, value), 255)); }
 
 /**
  * @brief Definition for the pybind11 python bindings of the robomaster_can_controller class.

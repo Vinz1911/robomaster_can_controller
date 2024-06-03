@@ -4,6 +4,9 @@
 // For details on the licensing terms, see the LICENSE file.
 // SPDX-License-Identifier: MIT
 
+// Modifications by Vinzenz Weist
+// Copyright (c) 2024 Vinzenz Weist
+
 #include "robomaster_can_controller/can_socket.h"
 
 #include <string.h>
@@ -41,13 +44,13 @@ void CanSocket::setTimeout(const double seconds) {
 bool CanSocket::init(const std::string &can_interface) {
     this->socket_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
     if(this->socket_ < 0) {
-        std::cerr << "[CanSocket][init]: Failed to open can socket!" << std::endl;
+        std::printf("[CAN]: Failed to open Socket\n");
         return false;
     }
 
     memcpy(this->ifr_.ifr_name, can_interface.c_str(), can_interface.size());
     if(ioctl(this->socket_, SIOGIFINDEX, &this->ifr_) < 0) {
-        std::cerr << "[CanSocket][init]: Failed to request can interface '" << can_interface << "'!" << std::endl;
+        std::printf("[CAN]: Failed to request interface %s\n", can_interface);
         return false;
     }
 
@@ -55,7 +58,7 @@ bool CanSocket::init(const std::string &can_interface) {
     this->addr_.can_family= PF_CAN;
 
     if(bind(this->socket_, (struct sockaddr *)&this->addr_, sizeof(this->addr_)) < 0) {
-        std::cerr << "[CanSocket][init]: Failed to bind the address to the can socket!" << std::endl;
+        std::printf("[CAN]: Failed to bind the address\n");
         return false;
     }
     return true;
@@ -71,11 +74,11 @@ bool CanSocket::sendFrame(const uint32_t id, const uint8_t data[8], const size_t
         memcpy((uint8_t *) frame.data, data, length);
         
         if(write(this->socket_, &frame, sizeof(frame)) < 0) {
-            std::cerr << "[CanSocket][sendFrame]: Failed to send frame! (errno " << errno << ")" << std::endl;
+            std::printf("[CAN]: Failed to send frame\n");
             return false;
         }
     } else {
-        std::cerr << "[CanSocket][sendFrame]: Failed to send frame! Data length > " << 8 << "." << std::endl;
+        std::printf("[CAN]: Failed to send frame\n");
         return false;
     }
     return true;
@@ -86,7 +89,7 @@ bool CanSocket::readFrame(uint32_t &id, uint8_t data[8], size_t &length) {
     memset(&frame, 0, sizeof(frame));
 
     if(read(this->socket_, &frame, sizeof(frame)) < 0) {
-        std::cerr << "[CanSocket][readFrame]: Failed to read frame! (errno " << errno << ")" << std::endl;
+        std::printf("[CAN]: Failed to read frame\n");
         return false;
     }
 
