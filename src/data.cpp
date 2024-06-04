@@ -12,99 +12,99 @@
 #include <iostream>
 
 namespace robomaster_can_controller {
-    struct DataPosition decodeDataPosition(const size_t index, const Message &msg) {
+    struct DataPosition decode_data_position(const size_t index, const Message &msg) {
         DataPosition data;
         // Check the length of the index and then fill the data.
-        if (index + 12 <= msg.getPayload().size()) {
-            data.x  = msg.getValueFloat(index);
-            data.y  = msg.getValueFloat(index +  4);
-            data.z  = msg.getValueFloat(index +  8);
+        if (index + 12 <= msg.get_payload().size()) {
+            data.x  = msg.get_value_float(index);
+            data.y  = msg.get_value_float(index + 4);
+            data.z  = msg.get_value_float(index + 8);
             data.has_data = true;
         }
         return data;
     }
 
-    struct DataEsc decodeDataEsc(const size_t index, const Message &msg) {
+    struct DataEsc decode_data_esc(const size_t index, const Message &msg) {
         DataEsc data;
 
         // Check the length of the index and then fill the data.
-        if (index + 36 <= msg.getPayload().size()) {
-            data.speed[0]      =  msg.getValueInt16 (index);
-            data.speed[1]      =  msg.getValueInt16 (index +  2);
-            data.speed[2]      =  msg.getValueInt16 (index +  4);
-            data.speed[3]      =  msg.getValueInt16 (index +  6);
-            data.angle[0]      =  msg.getValueInt16 (index +  8);
-            data.angle[1]      = -msg.getValueInt16 (index + 10);
-            data.angle[2]      = -msg.getValueInt16 (index + 12);
-            data.angle[3]      =  msg.getValueInt16 (index + 14);
-            data.time_stamp[0] =  msg.getValueUInt32(index + 16);
-            data.time_stamp[1] =  msg.getValueUInt32(index + 20);
-            data.time_stamp[2] =  msg.getValueUInt32(index + 24);
-            data.time_stamp[3] =  msg.getValueUInt32(index + 28);
-            data.state[0]      =  msg.getValueUInt8 (index + 32);
-            data.state[1]      =  msg.getValueUInt8 (index + 33);
-            data.state[2]      =  msg.getValueUInt8 (index + 34);
-            data.state[3]      =  msg.getValueUInt8 (index + 35);
+        if (index + 36 <= msg.get_payload().size()) {
+            data.speed[0]      = msg.get_value_int16(index);
+            data.speed[1]      = msg.get_value_int16(index + 2);
+            data.speed[2]      = msg.get_value_int16(index + 4);
+            data.speed[3]      = msg.get_value_int16(index + 6);
+            data.angle[0]      = msg.get_value_int16(index + 8);
+            data.angle[1]      = -msg.get_value_int16(index + 10);
+            data.angle[2]      = -msg.get_value_int16(index + 12);
+            data.angle[3]      = msg.get_value_int16(index + 14);
+            data.time_stamp[0] = msg.get_value_uint32(index + 16);
+            data.time_stamp[1] = msg.get_value_uint32(index + 20);
+            data.time_stamp[2] = msg.get_value_uint32(index + 24);
+            data.time_stamp[3] = msg.get_value_uint32(index + 28);
+            data.state[0]      = msg.get_value_uint8(index + 32);
+            data.state[1]      = msg.get_value_uint8(index + 33);
+            data.state[2]      = msg.get_value_uint8(index + 34);
+            data.state[3]      = msg.get_value_uint8(index + 35);
             data.has_data = true;
         }
         return data;
     }
 
-    struct DataImu decodeDataImu(const size_t index, const Message &msg) {
+    struct DataImu decode_data_imu(const size_t index, const Message &msg) {
         DataImu data;
 
         // Check the length of the index and then fill the data.
-        if (index + 24 <= msg.getPayload().size()) {
-            data.acc_x  = msg.getValueFloat(index);
-            data.acc_y  = msg.getValueFloat(index +  4);
-            data.acc_z  = msg.getValueFloat(index +  8);
-            data.gyro_x = msg.getValueFloat(index + 12);
-            data.gyro_y = msg.getValueFloat(index + 16);
-            data.gyro_z = msg.getValueFloat(index + 20);
+        if (index + 24 <= msg.get_payload().size()) {
+            data.acc_x  = msg.get_value_float(index);
+            data.acc_y  = msg.get_value_float(index + 4);
+            data.acc_z  = msg.get_value_float(index + 8);
+            data.gyro_x = msg.get_value_float(index + 12);
+            data.gyro_y = msg.get_value_float(index + 16);
+            data.gyro_z = msg.get_value_float(index + 20);
             data.has_data = true;
         }
         return data;
     }
 
-    struct DataAttitude decodeDataAttitude(const size_t index, const Message &msg) {
+    struct DataAttitude decode_data_attitude(const size_t index, const Message &msg) {
         DataAttitude data;
 
         // Check the length of the index and then fill the data.
-        if (index + 12 <= msg.getPayload().size()) {
-            data.yaw  = msg.getValueFloat(index);
-            data.pitch = msg.getValueFloat(index + 4);
-            data.roll   = msg.getValueFloat(index + 8);
+        if (index + 12 <= msg.get_payload().size()) {
+            data.yaw   = msg.get_value_float(index);
+            data.pitch = msg.get_value_float(index + 4);
+            data.roll  = msg.get_value_float(index + 8);
             data.has_data = true;
         }
         return data;
     }
 
-    struct DataBattery decodeDataBattery(const size_t index, const Message &msg) {
+    struct DataBattery decode_data_battery(const size_t index, const Message &msg) {
         DataBattery data;
 
         // Check the length of the index and then fill the data.
-        if (index + 10 <= msg.getPayload().size()) {
-            data.adc_value   = msg.getValueUInt16(index);;
-            data.temperature = msg.getValueUInt16(index + 2);
-            data.current     = msg.getValueInt32 (index + 4);
-            data.percent     = msg.getValueUInt8 (index + 8);
-            data.recv        = msg.getValueUInt8 (index + 9);
+        if (index + 10 <= msg.get_payload().size()) {
+            data.adc_value   = msg.get_value_uint16(index);;
+            data.temperature = msg.get_value_uint16(index + 2);
+            data.current     = msg.get_value_int32(index + 4);
+            data.percent     = msg.get_value_uint8(index + 8);
+            data.recv        = msg.get_value_uint8(index + 9);
             data.has_data = true;
         }
         return data;
     }
 
-    struct DataVelocity decodeDataVelocity(const size_t index, const Message &msg) {
+    struct DataVelocity decode_data_velocity(const size_t index, const Message &msg) {
         DataVelocity data;
 
         // Check the length of the index and then fill the data.
-        if (index + 24 <= msg.getPayload().size()) {
-            data.vgx = msg.getValueFloat(index);
-            data.vgy = msg.getValueFloat(index +  4);
-            data.vgz = msg.getValueFloat(index +  8);
-            data.vbx = msg.getValueFloat(index + 12);
-            data.vby = msg.getValueFloat(index + 16);
-            data.vbz = msg.getValueFloat(index + 20);
+        if (index + 24 <= msg.get_payload().size()) {
+            data.vgx = msg.get_value_float(index);
+            data.vgy = msg.get_value_float(index + 4);
+            data.vgz = msg.get_value_float(index + 8);
+            data.vbx = msg.get_value_float(index + 12);
+            data.vby = msg.get_value_float(index + 16);
+            data.vbz = msg.get_value_float(index + 20);
             data.has_data = true;
         }
         return data;

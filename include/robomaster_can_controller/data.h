@@ -255,7 +255,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataEsc. has_data is true, by successful decoding.
      */
-    struct DataEsc decodeDataEsc(const size_t index, const Message &msg);
+    struct DataEsc decode_data_esc(const size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for imu data.
@@ -264,7 +264,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataImu. has_data is true, by successful decoding.
      */
-    struct DataImu decodeDataImu(const size_t index, const Message &msg);
+    struct DataImu decode_data_imu(const size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for imu data.
@@ -273,7 +273,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataAttitude. has_data is true, by successful decoding.
      */
-    struct DataAttitude decodeDataAttitude(const size_t index, const Message &msg);
+    struct DataAttitude decode_data_attitude(const size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for battery data.
@@ -282,7 +282,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataBattery. has_data is true, by successful decoding.
      */
-    struct DataBattery decodeDataBattery(const size_t index, const Message &msg);
+    struct DataBattery decode_data_battery(const size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for velocity data.
@@ -291,7 +291,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataVelocity. has_data is true, by successful decoding.
      */
-    struct DataVelocity decodeDataVelocity(const size_t index, const Message &msg);
+    struct DataVelocity decode_data_velocity(const size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for position data.
@@ -300,7 +300,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataPosition. has_data is true, by successful decoding.
      */
-    struct DataPosition decodeDataPosition(const size_t index, const Message &msg);
+    struct DataPosition decode_data_position(const size_t index, const Message &msg);
 
     std::ostream& operator<<(std::ostream& os, const DataEsc &data);
     std::ostream& operator<<(std::ostream& os, const DataImu &data);

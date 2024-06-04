@@ -65,19 +65,19 @@ namespace robomaster_can_controller {
         0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78,
     };
 
-    uint8_t calculateCRC8(const uint8_t *data, const size_t length) {
+    uint8_t calculate_crc8(const uint8_t *data, const size_t length) {
         uint8_t crc = 0x77;
         for (size_t i = 0; i < length; i++) { crc = TABLE_CRC8[crc ^ data[i]]; }
         return crc;
     }
 
-    uint16_t calculateCRC16(const uint8_t *data, const size_t length) {
+    uint16_t calculate_crc16(const uint8_t *data, const size_t length) {
         uint16_t crc = 0x3692;
         for (size_t i = 0; i < length; i++) { crc = ((crc >> 8) & 0xff) ^ TABLE_CRC16[(crc ^ data[i]) & 0xff]; }
         return crc;
     }
 
-    std::string stringDataAsHex(const uint8_t * data, const size_t length) {
+    std::string string_to_hex(const uint8_t * data, const size_t length) {
         std::stringstream ss;
         for (size_t i = 0; i < length; i++) {
             ss << std::setfill('0') << std::setw(2) << std::hex << static_cast<uint32_t>(data[i]);
@@ -86,7 +86,7 @@ namespace robomaster_can_controller {
         return ss.str();
     }
 
-    std::string stringDataAsHex(const std::vector<uint8_t> &data) {
+    std::string string_to_hex(const std::vector<uint8_t> &data) {
         std::stringstream ss;
         for (size_t i = 0; i < data.size(); i++) {
             ss << std::setfill('0') << std::setw(2) << std::hex << static_cast<uint32_t>(data[i]);
@@ -95,7 +95,7 @@ namespace robomaster_can_controller {
         return ss.str();
     }
 
-    uint16_t littleToUint16(const uint8_t lsb, const uint8_t msb) {
+    uint16_t little_endian_to_uint16(const uint8_t lsb, const uint8_t msb) {
         return (static_cast<uint16_t>(msb) << 8) | static_cast<uint16_t>(lsb);
     }
 

@@ -95,27 +95,27 @@ namespace robomaster_can_controller {
         /**
          * @brief Run function of the sender thread.
          */
-        void runSenderThread();
+        void start_sender_thread();
 
         /**
          * @brief Run function of the receiver thread.
          */
-        void runReceiverThread();
+        void start_receiver_thread();
 
         /**
          * @brief Run function of the handler thread.
          */
-        void runHandlerThread();
+        void start_handler_thread();
 
         /**
          * @brief Notify all conditional variable eg. stopping the threads.
          */
-        void notifyAll();
+        void notify_all();
 
         /**
          * @brief Joining all started threads.
          */
-        void joinAll();
+        void join_all();
 
         /**
          * @brief Send the message to the can socket.
@@ -125,7 +125,7 @@ namespace robomaster_can_controller {
          * @return true, by success.
          * @return false, by failing to send the message.
          */
-        bool sendMessage(const uint32_t id, const std::vector<uint8_t> &data);
+        bool send_message(const uint32_t id, const std::vector<uint8_t> &data);
 
         /**
          * @brief Send the message to the can socket.
@@ -134,14 +134,14 @@ namespace robomaster_can_controller {
          * @return true, by success.
          * @return false, by failing to send the message.
          */
-        bool sendMessage(const Message &msg);
+        bool send_message(const Message &msg);
 
         /**
          * @brief Process the received messages from the message queue and triggers callback functions.
          *
          * @param msg RoboMaster message.
          */
-        void processReceivedMessage(const Message &msg);
+        void process_message(const Message &msg);
 
     public:
         /**
@@ -165,18 +165,18 @@ namespace robomaster_can_controller {
         bool init(const std::string &can_interface="can0");
 
         /**
-         * @brief Bind the given callbackfunction for triggering when the message for the RoboMasterState is received.
+         * @brief Bind the given callback for triggering when the message for the RoboMasterState is received.
          *
-         * @param func The callbackfunction to trigger.
+         * @param func The callback to trigger.
          */
-        void bindCallbackDataRoboMasterState(std::function<void(const Message&)> func);
+        void bind_callback(std::function<void(const Message&)> func);
 
         /**
          * @brief Push a message to the sender queue to send it over the can bus.
          *
          * @param msg A RoboMaster message.
          */
-        void pushMessage(const Message &msg);
+        void push_message(const Message &msg);
 
         /**
          * @brief State if the handler is running or not.
@@ -184,7 +184,7 @@ namespace robomaster_can_controller {
          * @return true If the Handler is running an ready to receive and send messages.
          * @return false If the handler was stopped due to error.
          */
-        bool isRunning() const;
+        bool is_running() const;
     };
 } // namespace robomaster_can_controller
 

@@ -73,21 +73,21 @@ The class RoboMaster provides simple access to control the chassis and the LEDs.
 | Method | Description |
 | ------ | ------------|
 | `bool init(const std::string &can_interface="can0")` | Initialize the RoboMaster by opening the CAN bus by the given can_interface. Return true by success. |
-| `bool isRunning() const` | Return true when the RoboMaster is successfully initialized and running. Switch to false when an error occurs. |
-| `void bindCallbackDataRobotMasterState(std::function< void(const DataRoboMasterState&)> func)` | Register a callback function that returns the states of the RoboMaster at a rate of 50 Hertz. |
-| `void commandEnable() ` | Enable the RoboMaster and the motors are supplied with power. | 
-| `void commandDisable()` | Disable the RoboMaster and stop supplying motors with power. |
-| `void commandStop()` | Stop immediately the wheels. | 
-| `void commandWheelRPM(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr)` | Set the wheel speed in rpm in the wheel order front right, front left, rear left and rear right [-1000, 1000]. |
-| `void commandVelocity(const float x, const float y, const float z)` | Set the linear x, linear y and angular as z velocity. The velocity and acceleration limits are handled by the config of the motion controller. |
-| `void commandLedOff(const uint16_t mask)` | Turn off the LEDs with the seleceted mask. Mask flags can be concatenated and represented as enums: LED_MASK_ALL, LED_MASK_FRONT, LED_MASK_RIGHT, LED_MASK_LEFT and LED_MASK_BACK |
-| `void commandLedOn(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b)` | Turn on the LEDs by the selected mask and the given rgb values [0, 255]. |
-| `void commandLedBreath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_rise, const uint16_t t_down)` | Make a breathing effect on the LED by the selected mask and given rgb values. The LEDs rise and down phase are set in milliseconds  [0, 60000]. | 
-| `void commandLedBreath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_rise, const float t_down)` | Make a breathing effect on the LED by the selected mask and given rgb values. The LEDs rise and down phase are set in seconds [0.0, 60.0]. |
-| `void commandLedBreath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate)` | Make a breathing effect on the LED by the selected mask and given rgb values. The rate is set in seconds [0.0, 60.0]. |
-| `void commandLedFlash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_on, const uint16_t t_off)` | Let the LED make a flash effect by the selected mask and given rgb values. The LEDs on and off phase are set in milliseconds [0, 60000]. |
-| `void commandLedFlash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_on, const float t_off)` | Let the LED make a flash effect by the selected mask and given rgb values. The LEDs on and off phase are set in seconds [0.0, 60.0]. |
-| `void commandLedFlash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate)` | Let the LED make a flash effect by the selected mask and given rgb values. The rate is set in seconds [0.0, 60.0]. |
+| `bool is_running() const` | Return true when the RoboMaster is successfully initialized and running. Switch to false when an error occurs. |
+| `void set_callback(std::function< void(const DataRoboMasterState&)> func)` | Register a callback function that returns the states of the RoboMaster at a rate of 50 Hertz. |
+| `void enable_torque() ` | Enable the RoboMaster and the motors are supplied with power. | 
+| `void disable_torque()` | Disable the RoboMaster and stop supplying motors with power. |
+| `void brake()` | Stop immediately the wheels. | 
+| `void set_wheel_rpm(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr)` | Set the wheel speed in rpm in the wheel order front right, front left, rear left and rear right [-1000, 1000]. |
+| `void set_velocity(const float x, const float y, const float z)` | Set the linear x, linear y and angular as z velocity. The velocity and acceleration limits are handled by the config of the motion controller. |
+| `void set_led_off(const uint16_t mask)` | Turn off the LEDs with the seleceted mask. Mask flags can be concatenated and represented as enums: LED_MASK_ALL, LED_MASK_FRONT, LED_MASK_RIGHT, LED_MASK_LEFT and LED_MASK_BACK |
+| `void set_led_on(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b)` | Turn on the LEDs by the selected mask and the given rgb values [0, 255]. |
+| `void set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_rise, const uint16_t t_down)` | Make a breathing effect on the LED by the selected mask and given rgb values. The LEDs rise and down phase are set in milliseconds  [0, 60000]. | 
+| `void set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_rise, const float t_down)` | Make a breathing effect on the LED by the selected mask and given rgb values. The LEDs rise and down phase are set in seconds [0.0, 60.0]. |
+| `void set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate)` | Make a breathing effect on the LED by the selected mask and given rgb values. The rate is set in seconds [0.0, 60.0]. |
+| `void set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_on, const uint16_t t_off)` | Let the LED make a flash effect by the selected mask and given rgb values. The LEDs on and off phase are set in milliseconds [0, 60000]. |
+| `void set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_on, const float t_off)` | Let the LED make a flash effect by the selected mask and given rgb values. The LEDs on and off phase are set in seconds [0.0, 60.0]. |
+| `void set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate)` | Let the LED make a flash effect by the selected mask and given rgb values. The rate is set in seconds [0.0, 60.0]. |
 
 ## Class RoboMaster Python
 

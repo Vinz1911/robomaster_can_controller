@@ -22,20 +22,20 @@ namespace robomaster_can_controller {
         close(socket_);
     }
 
-    void CanSocket::setTimeout(const size_t seconds, const size_t microseconds) {
+    void CanSocket::set_timeout(const size_t seconds, const size_t microseconds) {
         timeval t;
         t.tv_sec = seconds;
         t.tv_usec = microseconds;
         setsockopt(this->socket_, SOL_SOCKET, SO_RCVTIMEO, &t, sizeof(t));
     }
 
-    void CanSocket::setTimeout(const double seconds) {
+    void CanSocket::set_timeout(const double seconds) {
         if (seconds < 0.0) {
             const size_t seconds_t = static_cast<size_t>(std::floor(seconds));
             const size_t microseconds_t = static_cast<size_t>((seconds - std::floor(seconds)) * 1e6);
-            this->setTimeout(seconds_t, microseconds_t);
+            this->set_timeout(seconds_t, microseconds_t);
         } else {
-            this->setTimeout(0,0);
+            this->set_timeout(0, 0);
         }
     }
 
@@ -62,7 +62,7 @@ namespace robomaster_can_controller {
         return true;
     }
 
-    bool CanSocket::sendFrame(const uint32_t id, const uint8_t data[8], const size_t length) {
+    bool CanSocket::send_frame(const uint32_t id, const uint8_t data[8], const size_t length) {
         if (length <= 8) {
             struct can_frame frame;
             memset(&frame, 0, sizeof(frame));
@@ -82,7 +82,7 @@ namespace robomaster_can_controller {
         return true;
     }
 
-    bool CanSocket::readFrame(uint32_t &id, uint8_t data[8], size_t &length) {
+    bool CanSocket::read_frame(uint32_t &id, uint8_t data[8], size_t &length) {
         struct can_frame frame;
         memset(&frame, 0, sizeof(frame));
 

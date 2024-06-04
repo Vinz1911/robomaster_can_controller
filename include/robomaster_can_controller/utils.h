@@ -38,7 +38,7 @@ namespace robomaster_can_controller {
      * @param length Length of the data.
      * @return uint8_t Crc8 value.
      */
-    uint8_t   calculateCRC8(const uint8_t *data, const size_t length);
+    uint8_t calculate_crc8(const uint8_t *data, const size_t length);
 
     /**
      * @brief Calculated the crc16 for the given data.
@@ -47,7 +47,7 @@ namespace robomaster_can_controller {
      * @param length Length of the data.
      * @return uint8_t Crc16 value.
      */
-    uint16_t calculateCRC16(const uint8_t *data, const size_t length);
+    uint16_t calculate_crc16(const uint8_t *data, const size_t length);
 
 
     /**
@@ -57,7 +57,7 @@ namespace robomaster_can_controller {
      * @param length Length of the data.
      * @return std::string Data as string visualization.
      */
-    std::string stringDataAsHex(const uint8_t * data, const size_t length);
+    std::string string_to_hex(const uint8_t * data, const size_t length);
 
     /**
      * @brief
@@ -65,7 +65,7 @@ namespace robomaster_can_controller {
      * @param data
      * @return std::string
      */
-    std::string stringDataAsHex(const std::vector<uint8_t> &data);
+    std::string string_to_hex(const std::vector<uint8_t> &data);
 
     /**
      * @brief Put the two bytes from little endian in the right host platform order.
@@ -74,7 +74,7 @@ namespace robomaster_can_controller {
      * @param msb Most significant bit.
      * @return uint16_t The uint16_t value.
      */
-    uint16_t littleToUint16(const uint8_t lsb, const uint8_t msb);
+    uint16_t little_endian_to_uint16(const uint8_t lsb, const uint8_t msb);
 } // namespace robomaster_can_controller
 
 #endif // ROBOMASTER_CAN_CONTROLLER_UTILS_H_

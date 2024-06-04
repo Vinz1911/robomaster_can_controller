@@ -58,14 +58,14 @@ namespace robomaster_can_controller {
          * @param seconds Timeout in seconds.
          * @param microseconds Timeouts in microseconds.
          */
-        void setTimeout(const size_t seconds, const size_t microseconds);
+        void set_timeout(const size_t seconds, const size_t microseconds);
 
         /**
          * @brief Set the timeout for the reading the can socket.
          *
          * @param seconds Float in seconds.
          */
-        void setTimeout(const double seconds);
+        void set_timeout(const double seconds);
 
         /**
          * @brief Open the can socket by the given can interface name.
@@ -85,7 +85,7 @@ namespace robomaster_can_controller {
          * @return true, by success.
          * @return false, when failed.
          */
-        bool sendFrame(const uint32_t id, const uint8_t data[8], const size_t length);
+        bool send_frame(const uint32_t id, const uint8_t data[8], const size_t length);
 
         /**
          * @brief Read the next incoming can frame from the can socket. This function is blocking until the timeout is reached.
@@ -96,7 +96,7 @@ namespace robomaster_can_controller {
          * @return true, by success.
          * @return false  when failed.
          */
-        bool readFrame(uint32_t &id, uint8_t data[8], size_t &length);
+        bool read_frame(uint32_t &id, uint8_t data[8], size_t &length);
     };
 } // namespace robomaster_can_controller
 

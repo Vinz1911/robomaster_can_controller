@@ -30,7 +30,8 @@ namespace robomaster_can_controller {
     Message QueueMsg::pop() {
         std::lock_guard<std::mutex> lock(this->mutex_);
         if (this->queue_.empty()) {
-            return Message(0, {});
+            const Message msg = Message(0, {});
+            return msg;
         } else {
             const Message msg = queue_.front();
             this->queue_.pop();
@@ -46,10 +47,9 @@ namespace robomaster_can_controller {
     bool QueueMsg::empty() {
         std::lock_guard<std::mutex> lock(this->mutex_);
         return this->queue_.empty();
-
     }
 
-    size_t QueueMsg::maxQueueSize() const {
+    size_t QueueMsg::max_queue_size() const {
         return STD_MAX_QUEUE_SIZE;
     }
 
