@@ -82,12 +82,8 @@ namespace robomaster_can_controller {
     void RoboMaster::set_blaster(const BlasterType blaster) {
         Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x1709, this->counter_blaster_++);
         switch (blaster) {
-            case INFRARED:
-                msg.set_payload({ 0x00, 0x3f, 0x55, 0x73, 0x00, 0xff, 0x00, 0x01, 0x28, 0x00, 0x00 });
-                break;
-            case GELBEADS:
-                msg.set_payload({ 0x00, 0x3f, 0x51, 0x01 });
-                break;
+            case INFRARED: msg.set_payload({ 0x00, 0x3f, 0x55, 0x73, 0x00, 0xff, 0x00, 0x01, 0x28, 0x00, 0x00 }); break;
+            case GELBEADS: msg.set_payload({ 0x00, 0x3f, 0x51, 0x01 }); break;
         }
         this->handler_.push_message(std::move(msg));
     }
@@ -95,8 +91,7 @@ namespace robomaster_can_controller {
     bool RoboMaster::init(const std::string &can_interface) {
         if (this->handler_.init(can_interface)) {
             this->bootSequence(); return true;
-        }
-        return false;
+        } return false;
     }
 
     void RoboMaster::set_led_off(const uint16_t mask) {
