@@ -10,8 +10,11 @@
 #ifndef ROBOMASTER_CAN_CONTROLLER_CAN_SOCKET_H_
 #define ROBOMASTER_CAN_CONTROLLER_CAN_SOCKET_H_
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
 #include <net/if.h>
-#include <unistd.h> 
+#include <unistd.h>
 
 #include <linux/can.h>
 #include <linux/can/raw.h>
