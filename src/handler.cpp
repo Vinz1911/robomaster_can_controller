@@ -65,7 +65,7 @@ namespace robomaster_can_controller {
     }
 
     bool Handler::send_message(const uint32_t id, const std::vector<uint8_t> &data) {
-        uint8_t frame_data[8];
+        uint8_t frame_data[8] = {};
         for (size_t i = 0; i < data.size(); i += 8) {
             const size_t frame_length = std::min(static_cast<size_t>(8), data.size() - i);
             std::copy_n(data.begin() + i, frame_length, frame_data);
@@ -89,33 +89,31 @@ namespace robomaster_can_controller {
         };
 
         uint32_t frame_id;
-        uint8_t frame_buffer[8];
+        uint8_t frame_buffer[8] = {};
         size_t frame_length;
         size_t error_counter = 0;
 
         while(error_counter <= STD_MAX_ERROR_COUNT && !this->flag_stop_) {
             if(!can_socket_.read_frame(frame_id, frame_buffer, frame_length)) { error_counter++; continue; }
-            auto iter = map_msg_robomaster.find(frame_id);
+            auto slice = map_msg_robomaster.find(frame_id);
 
-            if(iter == map_msg_robomaster.end()) { continue; }
-            msg_robomaster& msg = iter->second;
-            msg.buffer.insert(std::end(msg.buffer), frame_buffer, frame_buffer + frame_length);
+            if(slice == map_msg_robomaster.end()) { continue; }
+            auto&[buffer, length] = slice->second;
+            buffer.insert(std::end(buffer), frame_buffer, frame_buffer + frame_length);
 
-            if(msg.length == 0) {
-                auto iter = msg.buffer.cbegin();
-                while(iter != msg.buffer.cend()) {
-                    iter = std::find(iter, std::cend(msg.buffer),0x55); msg.buffer.erase(std::cbegin(msg.buffer), iter);
-                    if(msg.buffer.size() < 4) { break; }
-                    if(msg.buffer[3] == calculate_crc8(msg.buffer.data(), 3)) { msg.length = msg.buffer[1]; break; } iter++;
+            if(length == 0) {
+                auto iterator = buffer.cbegin();
+                while(iterator != buffer.cend()) {
+                    iterator = std::find(iterator, std::cend(buffer),0x55); buffer.erase(std::cbegin(buffer), iterator);
+                    if(buffer.size() < 4) { break; }
+                    if(buffer[3] == calculate_crc8(buffer.data(), 3)) { length = buffer[1]; break; } iterator++;
                 }
-            } else if(msg.length <= msg.buffer.size()) {
-                const uint16_t crc16 = little_endian_to_uint16(msg.buffer[msg.length - 2], msg.buffer[msg.length - 1]);
-                if(crc16 == calculate_crc16(msg.buffer.data(), msg.length - 2)) {
-                    this->queue_receiver_.push(Message(frame_id, std::vector(std::cbegin(msg.buffer), std::cbegin(msg.buffer) + msg.length)));
+            } else if(length <= buffer.size()) {
+                if(const uint16_t crc16 = little_endian_to_uint16(buffer[length - 2], buffer[length - 1]); crc16 == calculate_crc16(buffer.data(), length - 2)) {
+                    this->queue_receiver_.push(Message(frame_id, std::vector(std::cbegin(buffer), std::cbegin(buffer) + static_cast<long>(length))));
                     this->cv_handler_.notify_one();
                 }
-                msg.buffer.erase(std::cbegin(msg.buffer), std::cbegin(msg.buffer) + msg.length);
-                msg.length = 0;
+                buffer.erase(std::cbegin(buffer), std::cbegin(buffer) + static_cast<long>(length)); length = 0;
             }
         }
 
@@ -133,7 +131,7 @@ namespace robomaster_can_controller {
                     heartbeat_10ms_time_point += STD_HEARTBEAT_TIME; error_counter = 0;
                 } else { error_counter++; }
             } else if(!this->queue_sender_.empty()) {
-                Message msg = queue_sender_.pop(); if (msg.is_valid()) { if (this->send_message(msg)) { error_counter = 0; } else { error_counter++; } }
+                if (Message msg = queue_sender_.pop(); msg.is_valid()) { if (this->send_message(msg)) { error_counter = 0; } else { error_counter++; } }
             } else {
                 std::unique_lock lock(this->cv_sender_mutex_); this->cv_sender_.wait_until(lock, heartbeat_10ms_time_point);
             }
@@ -145,8 +143,7 @@ namespace robomaster_can_controller {
     void Handler::start_handler_thread() {
         while (!this->flag_stop_) {
             if (!this->queue_receiver_.empty()) {
-                const Message msg = this->queue_receiver_.pop();
-                if (msg.is_valid()) { this->process_message(msg); }
+                if (const Message msg = this->queue_receiver_.pop(); msg.is_valid()) { this->process_message(msg); }
             } else {
                 std::unique_lock lock(this->cv_handler_mutex_);
                 this->cv_handler_.wait(lock);

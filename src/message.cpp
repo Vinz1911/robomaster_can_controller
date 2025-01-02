@@ -14,18 +14,18 @@
 #include <iomanip>
 
 namespace robomaster_can_controller {
-    Message::Message(const uint32_t device_id, const std::vector<uint8_t> &data)
+    Message::Message(const uint32_t device_id, const std::vector<uint8_t> &msg_data)
         : is_valid_(false),
           device_id_(device_id),
           sequence_(0),
           type_(0)
 
     {
-        if(10 < data.size()) {
-            this->type_ = little_endian_to_uint16(data[4], data[5]);
-            this->sequence_ = little_endian_to_uint16(data[6], data[7]);
+        if(10 < msg_data.size()) {
+            this->type_ = little_endian_to_uint16(msg_data[4], msg_data[5]);
+            this->sequence_ = little_endian_to_uint16(msg_data[6], msg_data[7]);
             this->payload_.clear();
-            this->payload_.insert(std::begin(this->payload_), std::cbegin(data) + 8, std::cend(data) - 2);
+            this->payload_.insert(std::begin(this->payload_), std::cbegin(msg_data) + 8, std::cend(msg_data) - 2);
             this->is_valid_ = true;
         }
     }
@@ -117,7 +117,7 @@ namespace robomaster_can_controller {
 
     int8_t Message::get_value_int8(const size_t index) const {
         assert(index < this->payload_.size());
-        return this->payload_[index];
+        return static_cast<int8_t>(this->payload_[index]);
     }
 
     uint16_t Message::get_value_uint16(const size_t index) const {
@@ -130,7 +130,7 @@ namespace robomaster_can_controller {
     int16_t Message::get_value_int16(const size_t index) const {
         assert(index + 1 < this->payload_.size());
         int16_t value = this->payload_[index + 1];
-        value = value << 8 | this->payload_[index];
+        value = static_cast<int16_t>(value << 8 | this->payload_[index]);
         return value;
     }
 

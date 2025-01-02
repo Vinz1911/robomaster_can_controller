@@ -15,7 +15,7 @@
 
 namespace robomaster_can_controller {
     RoboMaster::RoboMaster():counter_drive_(0), counter_led_(0), counter_gimbal_(0), counter_blaster_(0) {
-        this->handler_.bind_callback(std::bind(&RoboMaster::decodeDataRoboMasterState, this, std::placeholders::_1));
+        this->handler_.bind_callback([this]<typename T0>(T0 && PH1) { decodeDataRoboMasterState(std::forward<T0>(PH1)); });
     }
 
     RoboMaster::~RoboMaster() = default;
@@ -124,13 +124,13 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_rise, const float t_down) {
-        const uint16_t rise = clip<float>(t_rise * 1000.0f, 0.0f, 60000.0f);
-        const uint16_t down = clip<float>(t_down * 1000.0f, 0.0f, 60000.0f);
+        const auto rise = static_cast<uint16_t>(clip<float>(t_rise * 1000.0f, 0.0f, 60000.0f));
+        const auto down = static_cast<uint16_t>(clip<float>(t_down * 1000.0f, 0.0f, 60000.0f));
         this->set_led_breath(mask, r, g, b, rise, down);
     }
 
     void RoboMaster::set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate) {
-        const uint16_t freq = clip<float>(rate * 1000.0f, 0.0f, 60000.0f);
+        const auto freq = static_cast<uint16_t>(clip<float>(rate * 1000.0f, 0.0f, 60000.0f));
         this->set_led_breath(mask, r, g, b, freq, freq);
     }
 
@@ -147,13 +147,13 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_on, const float t_off) {
-        const uint16_t on  = clip<float>(t_on * 1000.0f, 0.0f, 60000.0f);
-        const uint16_t off = clip<float>(t_off * 1000.0f, 0.0f, 60000.0f);
+        const auto on  = static_cast<uint16_t>(clip<float>(t_on * 1000.0f, 0.0f, 60000.0f));
+        const auto off = static_cast<uint16_t>(clip<float>(t_off * 1000.0f, 0.0f, 60000.0f));
         this->set_led_flash(mask, r, g, b, on, off);
     }
 
     void RoboMaster::set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate) {
-        const uint16_t freq = clip<float>(rate * 1000.0f, 0.0f, 60000.0f);
+        const auto freq = static_cast<uint16_t>(clip<float>(rate * 1000.0f, 0.0f, 60000.0f));
         this->set_led_flash(mask, r, g, b, freq, freq);
     }
 

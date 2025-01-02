@@ -23,8 +23,8 @@ namespace robomaster_can_controller {
 
     void CanSocket::set_timeout(const size_t seconds, const size_t microseconds) {
         timeval t{};
-        t.tv_sec = seconds;
-        t.tv_usec = microseconds;
+        t.tv_sec = static_cast<long>(seconds);
+        t.tv_usec = static_cast<long>(microseconds);
         setsockopt(this->socket_, SOL_SOCKET, SO_RCVTIMEO, &t, sizeof(t));
     }
 
@@ -57,7 +57,7 @@ namespace robomaster_can_controller {
             can_frame frame;
             memset(&frame, 0, sizeof(frame));
 
-            frame.can_id = id;
+            frame.can_id = static_cast<int>(id);
             frame.can_dlc = length;
             memcpy(static_cast<uint8_t *>(frame.data), data, length);
 

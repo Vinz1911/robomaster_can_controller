@@ -8,7 +8,6 @@
 // Copyright (c) 2024 Vinzenz Weist
 
 #include "robomaster_can_controller/queue_msg.h"
-#include <iostream>
 
 namespace robomaster_can_controller {
     static constexpr size_t STD_MAX_QUEUE_SIZE = 10;
