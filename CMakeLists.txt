@@ -18,16 +18,17 @@ add_executable(${PROJECT_NAME}_example examples/cpp_example.cpp)
 target_link_libraries(${PROJECT_NAME}_example PRIVATE robomaster_can_controller ${CMAKE_THREAD_LIBS_INIT})
 
 if(BUILD_RUN_TESTS)
-    set(GTEST_INCLUDE_DIR "/usr/local/include")
-    set(GTEST_LIBRARIES "/usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a")
-
-    include_directories(${GTEST_INCLUDE_DIR})
-    link_directories("/usr/local/lib")
-
+    find_package(GTest REQUIRED)
     enable_testing()
 
-    add_executable(run_tests tests/main_test.cpp tests/data_test.cpp tests/message_test.cpp tests/utils_test.cpp tests/queue_test.cpp)
-    target_link_libraries(run_tests PRIVATE ${GTEST_LIBRARIES} robomaster_can_controller ${CMAKE_THREAD_LIBS_INIT})
+    add_executable(run_tests
+            tests/main_test.cpp
+            tests/data_test.cpp
+            tests/message_test.cpp
+            tests/utils_test.cpp
+            tests/queue_test.cpp)
+
+    target_link_libraries(run_tests PRIVATE GTest::GTest robomaster_can_controller)
 
     add_test(run_tests data_test)
     add_test(run_tests message_test)
