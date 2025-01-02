@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <iomanip>
+#include <utility>
 
 namespace robomaster_can_controller {
     Message::Message(const uint32_t device_id, const std::vector<uint8_t> &msg_data)
@@ -30,12 +31,12 @@ namespace robomaster_can_controller {
         }
     }
 
-    Message::Message(const uint32_t device_id, const uint16_t type, const uint16_t sequence, const std::vector<uint8_t> payload)
+    Message::Message(const uint32_t device_id, const uint16_t type, const uint16_t sequence, std::vector<uint8_t> payload)
         : is_valid_(true),
           device_id_(device_id),
           sequence_(sequence),
           type_(type),
-          payload_(payload)
+          payload_(std::move(payload))
     { }
 
     uint32_t Message::get_device_id() const {
