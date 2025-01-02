@@ -112,7 +112,7 @@ namespace robomaster_can_controller {
     std::ostream& operator<<(std::ostream& os, const DataEsc &data) {
         os << "{";
         if (data.has_data) {
-            os << ", \"speed\": [" << data.speed[0] << ", " << data.speed[1] << ", " << data.speed[2] << ", " << data.speed[3] << "]"
+            os << "\"speed\": [" << data.speed[0] << ", " << data.speed[1] << ", " << data.speed[2] << ", " << data.speed[3] << "]"
                << ", \"angle\": [" << data.angle[0] << ", " << data.angle[1] << ", " << data.angle[2] << ", " << data.angle[3] << "]"
                << ", \"time_stamp\": [" << data.time_stamp[0] << ", " << data.time_stamp[1] << ", " << data.time_stamp[2] << ", " << data.time_stamp[3] << "]"
                << ", \"state\": [" << static_cast<uint16_t>(data.state[0]) << ", " << static_cast<uint16_t>(data.state[1]) << ", "
@@ -125,7 +125,7 @@ namespace robomaster_can_controller {
     std::ostream& operator<<(std::ostream& os, const DataImu &data) {
         os << "{";
         if (data.has_data) {
-            os << ", \"accel\": [" << data.acc_x << ", " << data.acc_y << ", " << data.acc_z << "]"
+            os << "\"accel\": [" << data.acc_x << ", " << data.acc_y << ", " << data.acc_z << "]"
                << ", \"gyro\": [" << data.gyro_x << ", " << data.gyro_y << ", " << data.gyro_z << "]";
         }
         os << "}";
@@ -135,7 +135,7 @@ namespace robomaster_can_controller {
     std::ostream& operator<<(std::ostream& os, const DataAttitude &data) {
         os << "{";
         if (data.has_data) {
-            os << ", \"roll\": " << data.roll << ", \"pitch\": " << data.pitch << ", \"yaw\": " << data.yaw;
+            os << "\"roll\": " << data.roll << ", \"pitch\": " << data.pitch << ", \"yaw\": " << data.yaw;
         }
         os << "}";
         return os;
@@ -144,7 +144,7 @@ namespace robomaster_can_controller {
     std::ostream& operator<<(std::ostream& os, const DataBattery &data) {
         os << "{";
         if (data.has_data) {
-            os << ", \"adc\": " << data.adc_value << ", \"temp\": " << data.temperature
+            os << "\"adc\": " << data.adc_value << ", \"temp\": " << data.temperature
                << ", \"current\": " << data.current << ", \"percent\": " << static_cast<uint16_t>(data.percent);
         }
         os << "}";
@@ -154,7 +154,7 @@ namespace robomaster_can_controller {
     std::ostream& operator<<(std::ostream& os, const DataVelocity &data) {
         os << "{";
         if (data.has_data) {
-            os << ", \"global\": [" << data.vgx << ", " << data.vgy << ", " << data.vgz << "]"
+            os << "\"global\": [" << data.vgx << ", " << data.vgy << ", " << data.vgz << "]"
                << ", \"body\": [" << data.vbx << ", " << data.vby << ", " << data.vbz << "]";
         }
         os << "}";
@@ -164,7 +164,7 @@ namespace robomaster_can_controller {
     std::ostream& operator<<(std::ostream& os, const DataPosition &data) {
         os << "{";
         if (data.has_data) {
-            os << ", \"x\": " << data.x << ", \"y\": " << data.y << ", \"z\": " << data.z;
+            os << "\"x\": " << data.x << ", \"y\": " << data.y << ", \"z\": " << data.z;
         }
         os << "}";
         return os;
