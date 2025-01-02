@@ -11,8 +11,8 @@
 #define ROBOMASTER_CAN_CONTROLLER_CAN_SOCKET_H_
 
 #include <sys/types.h>
-#include <sys/socket.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
 #include <net/if.h>
 #include <unistd.h>
 
@@ -38,7 +38,7 @@ namespace robomaster_can_controller {
         /**
          * @brief Struct for the Can Bus address.
          */
-        struct sockaddr_can addr_;
+        sockaddr_can addr_;
 
     public:
         /**

@@ -54,7 +54,7 @@ namespace robomaster_can_controller {
 
     bool CanSocket::send_frame(const uint32_t id, const uint8_t data[8], const size_t length) {
         if (length <= 8) {
-            struct can_frame frame;
+            can_frame frame;
             memset(&frame, 0, sizeof(frame));
 
             frame.can_id = id;
@@ -69,7 +69,7 @@ namespace robomaster_can_controller {
     }
 
     bool CanSocket::read_frame(uint32_t &id, uint8_t data[8], size_t &length) {
-        struct can_frame frame;
+        can_frame frame;
         memset(&frame, 0, sizeof(frame));
 
         if(read(this->socket_, &frame, sizeof(frame)) < 0) { std::printf("[CAN]: Failed to read frame\n"); return false; }
