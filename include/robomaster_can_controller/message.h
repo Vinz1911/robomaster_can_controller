@@ -10,17 +10,14 @@
 #ifndef ROBOMASTER_CAN_CONTROLLER_MESSAGE_H_
 #define ROBOMASTER_CAN_CONTROLLER_MESSAGE_H_
 
-#include "definitions.h"
-#include <memory>
 #include <vector>
 #include <ostream>
 
 namespace robomaster_can_controller {
     /**
-     * @brief This class defined the a RoboMaster message. The information values in the messages are saved in little endian.
+     * @brief This class defined a RoboMaster message. The information values in the messages are saved in little endian.
      */
     class Message {
-    private:
         /**
          * @brief Flag for a valid message. This includes when the message is long enough with header and the right crc.
          */
@@ -51,19 +48,19 @@ namespace robomaster_can_controller {
          * @brief Construct a new Message object from the given raw data.
          *
          * @param device_id The can device id.
-         * @param msg_data The raw data eg. can bus to parse into a RoboMaster message.
+         * @param msg_data The raw data for example can bus to parse into a RoboMaster message.
          */
-        Message(const uint32_t device_id, const std::vector<uint8_t> &msg_data);
+        Message(uint32_t device_id, const std::vector<uint8_t> &msg_data);
 
         /**
          * @brief Construct a new Message object.
          *
          * @param device_id The can device id.
          * @param type The type of the message.
-         * @param squence The current squence.
+         * @param sequence The current sequence.
          * @param payload The payload for the information.
          */
-        Message(const uint32_t device_id, const uint16_t type, const uint16_t squence, const std::vector<uint8_t> payload=std::vector<uint8_t>());
+        Message(uint32_t device_id, uint16_t type, uint16_t sequence, std::vector<uint8_t> payload=std::vector<uint8_t>());
 
         /**
          * @brief Get the can device id.
@@ -109,60 +106,60 @@ namespace robomaster_can_controller {
         size_t get_length() const;
 
         /**
-         * @brief Set the a uint8 value into the payload at given index.
+         * @brief Set the uint8 value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_uint8(const size_t index, const uint8_t value);
+        void set_value_uint8(size_t index, uint8_t value);
 
         /**
-         * @brief Set the a int8 value into the payload at given index.
+         * @brief Set the int8 value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_int8(const size_t index, const int8_t value);
+        void set_value_int8(size_t index, int8_t value);
 
         /**
-         * @brief Set the a uint16 value into the payload at given index.
+         * @brief Set the uint16 value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_uint16(const size_t index, const uint16_t value);
+        void set_value_uint16(size_t index, uint16_t value);
 
         /**
-         * @brief Set the a int16 value into the payload at given index.
+         * @brief Set the int16 value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_int16(const size_t index, const int16_t value);
+        void set_value_int16(size_t index, int16_t value);
 
         /**
-         * @brief Set the a uint32 value into the payload at given index.
+         * @brief Set the uint32 value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_uint32(const size_t index, const uint32_t value);
+        void set_value_uint32(size_t index, uint32_t value);
 
         /**
-         * @brief Set the a int32 value into the payload at given index.
+         * @brief Set the int32 value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_int32(const size_t index, const int32_t value);
+        void set_value_int32(size_t index, int32_t value);
 
         /**
-         * @brief Set the a float value into the payload at given index.
+         * @brief Set the float value into the payload at given index.
          *
          * @param index The index for the payload position.
          * @param value The value to be set.
          */
-        void set_value_float(const size_t index, const float value);
+        void set_value_float(size_t index, float value);
 
         /**
          * @brief Get the uint8 value form the palyoad at given index.
@@ -170,7 +167,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return uint8_t as value.
          */
-        uint8_t get_value_uint8(const size_t index) const;
+        uint8_t get_value_uint8(size_t index) const;
 
         /**
          * @brief Get the int8 value form the palyoad at given index.
@@ -178,7 +175,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return int8_t as value.
          */
-        int8_t get_value_int8(const size_t index) const;
+        int8_t get_value_int8(size_t index) const;
 
         /**
          * @brief Get the uint16 value form the palyoad at given index.
@@ -186,7 +183,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return uint16_t as value.
          */
-        uint16_t get_value_uint16(const size_t index) const;
+        uint16_t get_value_uint16(size_t index) const;
 
         /**
          * @brief Get the int16 value form the palyoad at given index.
@@ -194,7 +191,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return uint16_t as value.
          */
-        int16_t get_value_int16(const size_t index) const;
+        int16_t get_value_int16(size_t index) const;
 
         /**
          * @brief Get the uint32 value form the palyoad at given index.
@@ -202,7 +199,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return uint32_t as value.
          */
-        uint32_t get_value_uint32(const size_t index) const;
+        uint32_t get_value_uint32(size_t index) const;
 
         /**
          * @brief Get the int32 value form the palyoad at given index.
@@ -210,7 +207,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return int32_t as value.
          */
-        int32_t get_value_int32(const size_t index) const;
+        int32_t get_value_int32(size_t index) const;
 
         /**
          * @brief Get the float value form the palyoad at given index.
@@ -218,7 +215,7 @@ namespace robomaster_can_controller {
          * @param index The index for the payload position.
          * @return float as value.
          */
-        float get_value_float(const size_t index) const;
+        float get_value_float(size_t index) const;
 
         /**
          * @brief Increment the sequence by one.

@@ -11,7 +11,6 @@
 #define ROBOMASTER_CAN_CONTROLLER_DATA_H_
 
 #include <cstdint>
-#include <memory>
 #include <ostream>
 #include <array>
 
@@ -19,7 +18,7 @@
 
 namespace robomaster_can_controller {
     /**
-     * @brief Struct for the data of the ESC from the RoboMaster. The data array is ordered in front right, front left and rear right.
+     * @brief Struct for the data of the ESC from the RoboMaster. The data array is ordered in front right, front left, rear left and rear right.
      */
     struct DataEsc {
         /**
@@ -58,12 +57,12 @@ namespace robomaster_can_controller {
         bool has_data = false;
 
         /**
-         * @brief Acceleration on x axis in 9,81 /m^2 s.
+         * @brief Acceleration on x-axis in 9,81 /m^2 s.
          */
         float acc_x = 0.0f;
 
         /**
-         * @brief Acceleration on y axis in 9,81 /m^2 s.
+         * @brief Acceleration on y-axis in 9,81 /m^2 s.
          */
         float acc_y = 0.0f;
 
@@ -73,12 +72,12 @@ namespace robomaster_can_controller {
         float acc_z = 0.0f;
 
         /**
-         * @brief Angular velocity on x axis in radiant.
+         * @brief Angular velocity on x-axis in radiant.
          */
         float gyro_x = 0.0f;
 
         /**
-         * @brief Angular velocity on y axis in radiant.
+         * @brief Angular velocity on y-axis in radiant.
          */
         float gyro_y = 0.0f;
 
@@ -158,12 +157,12 @@ namespace robomaster_can_controller {
         bool has_data = false;
 
         /**
-         * @brief Velocity m/s on the x axis in the global coordinate system where the RoboMaster is turned on.
+         * @brief Velocity m/s on the x-axis in the global coordinate system where the RoboMaster is turned on.
          */
         float vgx = 0.0f;
 
         /**
-         * @brief Velocity m/s on the y axis in the global coordinate system where the RoboMaster is turned on.
+         * @brief Velocity m/s on the y-axis in the global coordinate system where the RoboMaster is turned on.
          */
         float vgy = 0.0f;
 
@@ -173,12 +172,12 @@ namespace robomaster_can_controller {
         float vgz = 0.0f;
 
         /**
-         * @brief Velocity m/s on the x axis in local coordinate system.
+         * @brief Velocity m/s on the x-axis in local coordinate system.
          */
         float vbx = 0.0f;
 
         /**
-         * @brief Velocity m/s on the y axis in local coordinate system.
+         * @brief Velocity m/s on the y-axis in local coordinate system.
          */
         float vby = 0.0f;
 
@@ -198,12 +197,12 @@ namespace robomaster_can_controller {
         bool has_data = false;
 
         /**
-         * @brief X position on the x axis in the global coordinate system where the RoboMaster is turned on.
+         * @brief X position on the x-axis in the global coordinate system where the RoboMaster is turned on.
          */
         float x = 0.0f;
 
         /**
-         * @brief Y position on the x axis in the global coordinate system where the RoboMaster is turned on.
+         * @brief Y position on the x-axis in the global coordinate system where the RoboMaster is turned on.
          */
         float y = 0.0f;
 
@@ -255,7 +254,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataEsc. has_data is true, by successful decoding.
      */
-    struct DataEsc decode_data_esc(const size_t index, const Message &msg);
+    DataEsc decode_data_esc(size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for imu data.
@@ -264,7 +263,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataImu. has_data is true, by successful decoding.
      */
-    struct DataImu decode_data_imu(const size_t index, const Message &msg);
+    DataImu decode_data_imu(size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for imu data.
@@ -273,7 +272,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataAttitude. has_data is true, by successful decoding.
      */
-    struct DataAttitude decode_data_attitude(const size_t index, const Message &msg);
+    DataAttitude decode_data_attitude(size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for battery data.
@@ -282,7 +281,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataBattery. has_data is true, by successful decoding.
      */
-    struct DataBattery decode_data_battery(const size_t index, const Message &msg);
+    DataBattery decode_data_battery(size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for velocity data.
@@ -291,7 +290,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataVelocity. has_data is true, by successful decoding.
      */
-    struct DataVelocity decode_data_velocity(const size_t index, const Message &msg);
+    DataVelocity decode_data_velocity(size_t index, const Message &msg);
 
     /**
      * @brief Decode the message payload at the given index for position data.
@@ -300,7 +299,7 @@ namespace robomaster_can_controller {
      * @param msg Message from the motion controller.
      * @return struct DataPosition. has_data is true, by successful decoding.
      */
-    struct DataPosition decode_data_position(const size_t index, const Message &msg);
+    DataPosition decode_data_position(size_t index, const Message &msg);
 
     std::ostream& operator<<(std::ostream& os, const DataEsc &data);
     std::ostream& operator<<(std::ostream& os, const DataImu &data);

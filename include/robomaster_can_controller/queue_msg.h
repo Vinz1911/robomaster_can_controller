@@ -19,7 +19,6 @@ namespace robomaster_can_controller {
      * @brief This class is queue for RoboMaster messages which is protected by a mutex.
      */
     class QueueMsg {
-    private:
         /**
          * @brief The message queue.
          *

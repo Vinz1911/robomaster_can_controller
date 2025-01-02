@@ -11,7 +11,6 @@
 #define ROBOMASTER_CAN_CONTROLLER_ROBOMASTER_H_
 
 #include "handler.h"
-#include "definitions.h"
 #include "data.h"
 
 namespace robomaster_can_controller {
@@ -28,7 +27,6 @@ namespace robomaster_can_controller {
      *
      */
     class RoboMaster {
-    private:
         /**
          * @brief Handler class for the RoboMaster message io and thread management.
          */
@@ -45,7 +43,7 @@ namespace robomaster_can_controller {
         uint16_t counter_drive_;
 
         /**
-         * @brief Counter for the message sequence of the led messages.
+         * @brief Counter for the message sequence of the LED messages.
          */
         uint16_t counter_led_;
 
@@ -98,7 +96,7 @@ namespace robomaster_can_controller {
          * @param y Linear y velocity in m/s.
          * @param z Angular velocity in radiant/s.
          */
-        void set_velocity(const float x, const float y, const float z);
+        void set_velocity(float x, float y, float z);
 
         /**
          * @brief Control each individual wheel of the RoboMaster in rpm.
@@ -108,7 +106,7 @@ namespace robomaster_can_controller {
          * @param rl Rear left wheel in rpm.
          * @param rr Rear right wheel in rpm.
          */
-        void set_wheel_rpm(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr);
+        void set_wheel_rpm(int16_t fr, int16_t fl, int16_t rl, int16_t rr);
 
         /**
          * @brief Control the gimbal of the RoboMaster
@@ -116,12 +114,12 @@ namespace robomaster_can_controller {
          * @param y Angular y velocity in radiant/s
          * @param z  Angular z velocity in radiant/s
          */
-        void set_gimbal(const int16_t y, const int16_t z);
+        void set_gimbal(int16_t y, int16_t z);
 
         /**
          * @brief Fire the blaster of the RoboMaster
          */
-        void set_blaster(const BlasterType blaster);
+        void set_blaster(BlasterType blaster);
 
         /**
          * @brief Stop the RoboMaster with zero velocities.
@@ -129,88 +127,88 @@ namespace robomaster_can_controller {
         void brake();
 
         /**
-         * @brief Set the Led off by the given mask.
+         * @brief Set the LED off by the given mask.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          */
-        void set_led_off(const uint16_t mask);
+        void set_led_off(uint16_t mask);
 
         /**
-         * @brief Set the Led on by the given mask.
+         * @brief Set the LED on by the given mask.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          */
-        void set_led_on(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b);
+        void set_led_on(uint16_t mask, uint8_t r, uint8_t g, uint8_t b);
 
         /**
-         * @brief @brief Set the led with a breath effect with given mask and timer.
+         * @brief @brief Set the LED with a breath effect with given mask and timer.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          * @param r Red value colour between 0-255.
          * @param g Green value colour between 0-255.
          * @param b Blue value colour between 0-255.
-         * @param t_rise The rising time of the led in seconds.
-         * @param t_down The falling time of the led in seconds.
+         * @param t_rise The rising time of the LED in seconds.
+         * @param t_down The falling time of the LED in seconds.
          */
-        void set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_rise, const uint16_t t_down);
+        void set_led_breath(uint16_t mask, uint8_t r, uint8_t g, uint8_t b, uint16_t t_rise, uint16_t t_down);
 
         /**
-         * @brief Set the led with a breath effect with given mask and timer.
+         * @brief Set the LED with a breath effect with given mask and timer.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          * @param r Red value colour between 0-255.
          * @param g Green value colour between 0-255.
          * @param b Blue value colour between 0-255.
-         * @param t_rise The rising time of the led in seconds in milliseconds.
-         * @param t_down The falling time of the led in seconds in milliseconds.
+         * @param t_rise The rising time of the LED in seconds in milliseconds.
+         * @param t_down The falling time of the LED in seconds in milliseconds.
          */
-        void set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_rise, const float t_down);
+        void set_led_breath(uint16_t mask, uint8_t r, uint8_t g, uint8_t b, float t_rise, float t_down);
 
         /**
-         * @brief Set the led with a breath effect with given mask and rate.
+         * @brief Set the LED with a breath effect with given mask and rate.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          * @param r Red value colour between 0-255.
          * @param g Green value colour between 0-255.
          * @param b Blue value colour between 0-255.
          * @param rate The rate of the breath effect.
          */
-        void set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate);
+        void set_led_breath(uint16_t mask, uint8_t r, uint8_t g, uint8_t b, float rate);
 
         /**
-         * @brief Set the led with a flash effect with given mask and timer.
+         * @brief Set the LED with a flash effect with given mask and timer.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          * @param r Red value colour between 0-255.
          * @param g Green value colour between 0-255.
          * @param b Blue value colour between 0-255.
-         * @param t_on The on time of the led in seconds.
-         * @param t_off The off time of the led in seconds.
+         * @param t_on The on time of the LED in seconds.
+         * @param t_off The off time of the LED in seconds.
          */
-        void set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_on, const uint16_t t_off);
+        void set_led_flash(uint16_t mask, uint8_t r, uint8_t g, uint8_t b, uint16_t t_on, uint16_t t_off);
 
         /**
-         * @brief Set the led with a flash effect with given mask and timer.
+         * @brief Set the LED with a flash effect with given mask and timer.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          * @param r Red value colour between 0-255.
          * @param g Green value colour between 0-255.
          * @param b Blue value colour between 0-255.
-         * @param t_on The on time of the led in milliseconds.
-         * @param t_off The off time of the led in milliseconds.
+         * @param t_on The on time of the LED in milliseconds.
+         * @param t_off The off time of the LED in milliseconds.
          */
-        void set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float t_on, const float t_off);
+        void set_led_flash(uint16_t mask, uint8_t r, uint8_t g, uint8_t b, float t_on, float t_off);
 
         /**
-         * @brief Set the led with a flash effect with given mask and rate.
+         * @brief Set the LED with a flash effect with given mask and rate.
          *
-         * @param mask Mask for selecting the led. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
+         * @param mask Mask for selecting the LED. LED_MASK_ALL for all Leds or select specific led with LED_MASK_FRONT | LED_MASK_BACK etc.
          * @param r Red value colour between 0-255.
          * @param g Green value colour between 0-255.
          * @param b Blue value colour between 0-255.
          * @param rate The rate of the flash effect.
          */
-        void set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const float rate);
+        void set_led_flash(uint16_t mask, uint8_t r, uint8_t g, uint8_t b, float rate);
 
         /**
          * @brief Bind a function to the callback which get triggered when a new RoboMasterState message is received.

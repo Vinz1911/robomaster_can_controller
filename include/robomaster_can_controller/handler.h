@@ -16,17 +16,15 @@
 
  
 #include <thread>
-#include <queue>
 #include <condition_variable>
 #include <functional>
 
 namespace robomaster_can_controller {
     /**
-     * @brief This class handles the incoming and outcoming RoboMaster message over the can bus.
+     * @brief This class handles the incoming and outgoing RoboMaster message over the can bus.
      *
      */
     class Handler {
-    private:
         /**
          * @brief CanSocket class for the can bus io.
          */
@@ -83,7 +81,7 @@ namespace robomaster_can_controller {
         std::function<void(const Message&)> callback_data_robomaster_state_;
 
         /**
-         * @brief Flag of the initilaisation of the handler class. True when the can socket was successful initialised.
+         * @brief Flag of the initialisation of the handler class. True when the can socket was successfully initialised.
          */
         bool flag_initialised_;
 
@@ -125,7 +123,7 @@ namespace robomaster_can_controller {
          * @return true, by success.
          * @return false, by failing to send the message.
          */
-        bool send_message(const uint32_t id, const std::vector<uint8_t> &data);
+        bool send_message(uint32_t id, const std::vector<uint8_t> &data);
 
         /**
          * @brief Send the message to the can socket.
@@ -181,7 +179,7 @@ namespace robomaster_can_controller {
         /**
          * @brief State if the handler is running or not.
          *
-         * @return true If the Handler is running an ready to receive and send messages.
+         * @return true If the Handler is running and ready to receive and send messages.
          * @return false If the handler was stopped due to error.
          */
         bool is_running() const;

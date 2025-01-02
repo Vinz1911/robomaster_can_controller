@@ -105,9 +105,9 @@ namespace robomaster_can_controller {
 
     void Message::set_value_float(const size_t index, const float value) {
         assert(index + 3 < this->payload_.size());
-        float non_const_value = value;
-        const uint32_t float_bits = *reinterpret_cast<uint32_t*>(&non_const_value);
-        this->set_value_uint32(index, float_bits);
+        union { uint32_t u; float f; } float_uint32_t_union{};
+        float_uint32_t_union.f = value;
+        this->set_value_uint32(index, float_uint32_t_union.u);
     }
 
     uint8_t Message::get_value_uint8(const size_t index) const {
@@ -154,8 +154,9 @@ namespace robomaster_can_controller {
 
     float Message::get_value_float(const size_t index) const {
         assert(index + 3 < this->payload_.size());
-        uint32_t value = this->get_value_uint32(index);
-        return *reinterpret_cast<float*>(&value);
+        union { uint32_t u; float f; } float_uint32_t_union{};
+        float_uint32_t_union.u = this->get_value_uint32(index);
+        return float_uint32_t_union.f;
     }
 
     void Message::set_payload(const std::vector<uint8_t> &payload) {

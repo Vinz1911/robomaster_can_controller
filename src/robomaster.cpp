@@ -7,6 +7,8 @@
 // Modifications by Vinzenz Weist
 // Copyright (c) 2024 Vinzenz Weist
 
+#include <utility>
+
 #include "robomaster_can_controller/robomaster.h"
 #include "robomaster_can_controller/definitions.h"
 #include "robomaster_can_controller/utils.h"
@@ -16,16 +18,16 @@ namespace robomaster_can_controller {
         this->handler_.bind_callback(std::bind(&RoboMaster::decodeDataRoboMasterState, this, std::placeholders::_1));
     }
 
-    RoboMaster::~RoboMaster() { }
+    RoboMaster::~RoboMaster() = default;
 
     void RoboMaster::set_callback(std::function<void(const DataRoboMasterState&)> func) {
-        this->callback_data_robomaster_state_ = func;
+        this->callback_data_robomaster_state_ = std::move(func);
     }
 
     void RoboMaster::bootSequence() {
         this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 0, { 0x40, 0x48, 0x04, 0x00, 0x09, 0x00 }));
         this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 1, { 0x40, 0x48, 0x01, 0x09, 0x00, 0x00, 0x00, 0x03 }));
-        this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 2,{ 0x40, 0x48, 0x03, 0x09, 0x01, 0x03, 0x00, 0x07, 0xa7, 0x02, 0x29, 0x88, 0x03, 0x00, 0x02, 0x00, 0x66, 0x3e, 0x3e, 0x4c, 0x03, 0x00, 0x02, 0x00, 0xfb, 0xdc, 0xf5, 0xd7, 0x03, 0x00, 0x02, 0x00, 0x09, 0xa3, 0x26, 0xe2, 0x03, 0x00, 0x02, 0x00, 0xf4, 0x1d, 0x1c, 0xdc, 0x03, 0x00, 0x02, 0x00, 0x42, 0xee, 0x13, 0x1d, 0x03, 0x00, 0x02, 0x00, 0xb3, 0xf7, 0xe6, 0x47, 0x03, 0x00, 0x02, 0x00, 0x32, 0x00 }));
+        this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 2, { 0x40, 0x48, 0x03, 0x09, 0x01, 0x03, 0x00, 0x07, 0xa7, 0x02, 0x29, 0x88, 0x03, 0x00, 0x02, 0x00, 0x66, 0x3e, 0x3e, 0x4c, 0x03, 0x00, 0x02, 0x00, 0xfb, 0xdc, 0xf5, 0xd7, 0x03, 0x00, 0x02, 0x00, 0x09, 0xa3, 0x26, 0xe2, 0x03, 0x00, 0x02, 0x00, 0xf4, 0x1d, 0x1c, 0xdc, 0x03, 0x00, 0x02, 0x00, 0x42, 0xee, 0x13, 0x1d, 0x03, 0x00, 0x02, 0x00, 0xb3, 0xf7, 0xe6, 0x47, 0x03, 0x00, 0x02, 0x00, 0x32, 0x00 }));
     }
 
     void RoboMaster::enable_torque() {
@@ -42,10 +44,10 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_wheel_rpm(const int16_t fr, const int16_t fl, const int16_t rl, const int16_t rr) {
-        const int16_t w1 = clip<int16_t>(fr, -1000, 1000);
-        const int16_t w2 = clip<int16_t>(-fl, -1000, 1000);
-        const int16_t w3 = clip<int16_t>(-rl, -1000, 1000);
-        const int16_t w4 = clip<int16_t>(rr, -1000, 1000);
+        const auto w1 = clip<int16_t>(fr, -1000, 1000);
+        const auto w2 = clip<int16_t>(fl, -1000, 1000);
+        const auto w3 = clip<int16_t>(rl, -1000, 1000);
+        const auto w4 = clip<int16_t>(rr, -1000, 1000);
 
         Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0xc3c9, this->counter_drive_++, { 0x40, 0x3F, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_int16(3, w1);
@@ -56,9 +58,9 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_velocity(const float x, const float y, const float z) {
-        const float cx = clip<float>(x,   -3.5f,   3.5f);
-        const float cy = clip<float>(y,   -3.5f,   3.5f);
-        const float cz = clip<float>(z, -600.0f, 600.0f);
+        const auto cx = clip<float>(x,   -3.5f,   3.5f);
+        const auto cy = clip<float>(y,   -3.5f,   3.5f);
+        const auto cz = clip<float>(z, -600.0f, 600.0f);
 
         Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0xc3c9, this->counter_drive_++, { 0x00, 0x3f, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_float(3, cx);
@@ -68,8 +70,8 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_gimbal(const int16_t y, const int16_t z) {
-        const int16_t cy = clip<int16_t>(y, -1024, 1024);
-        const int16_t cz = clip<int16_t>(z, -1024, 1024);
+        const auto cy = clip<int16_t>(y, -1024, 1024);
+        const auto cz = clip<int16_t>(z, -1024, 1024);
 
         Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x0409, this->counter_gimbal_++, { 0x00, 0x04, 0x69, 0x08, 0x05, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_int16(5, cy);
@@ -98,14 +100,14 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_led_off(const uint16_t mask) {
-        Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+        Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_uint16(3, 0x70);
         msg.set_value_uint16(14, mask);
         this->handler_.push_message(std::move(msg));
     }
 
     void RoboMaster::set_led_on(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b) {
-        Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+        Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_uint16(3, 0x71); // effect mode on
         msg.set_value_uint8(6, r);
         msg.set_value_uint8(7, g);
@@ -115,7 +117,7 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_led_breath(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_rise, const uint16_t t_down) {
-        Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+        Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_uint16(3, 0x72); // effect mode breath
         msg.set_value_uint8(6, r);
         msg.set_value_uint8(7, g);
@@ -138,7 +140,7 @@ namespace robomaster_can_controller {
     }
 
     void RoboMaster::set_led_flash(const uint16_t mask, const uint8_t r, const uint8_t g, const uint8_t b, const uint16_t t_on, const uint16_t t_off) {
-        Message msg(0x0201, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+        Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0x1809, this->counter_led_++, { 0x00, 0x3f, 0x32, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         msg.set_value_uint16(3, 0x73);
         msg.set_value_uint8(6, r);
         msg.set_value_uint8(7, g);
@@ -163,12 +165,12 @@ namespace robomaster_can_controller {
     void RoboMaster::decodeDataRoboMasterState(const Message &msg) {
         if (this->callback_data_robomaster_state_) {
             DataRoboMasterState data;
-            data.velocity = decode_data_velocity(27, msg);
-            data.battery = decode_data_battery(51, msg);
-            data.esc = decode_data_esc(61, msg);
-            data.imu = decode_data_imu(97, msg);
-            data.attitude = decode_data_attitude(121, msg);
-            data.position = decode_data_position(133, msg);
+            data.velocity   = decode_data_velocity(27, msg);
+            data.battery    = decode_data_battery(51, msg);
+            data.esc        = decode_data_esc(61, msg);
+            data.imu        = decode_data_imu(97, msg);
+            data.attitude   = decode_data_attitude(121, msg);
+            data.position   = decode_data_position(133, msg);
             this->callback_data_robomaster_state_(data);
         }
     }

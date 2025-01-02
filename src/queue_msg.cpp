@@ -11,41 +11,40 @@
 #include <iostream>
 
 namespace robomaster_can_controller {
-    const static size_t STD_MAX_QUEUE_SIZE = 10;
+    static constexpr size_t STD_MAX_QUEUE_SIZE = 10;
 
-    QueueMsg::QueueMsg() { }
+    QueueMsg::QueueMsg() = default;
 
     void QueueMsg::push(const Message &msg) {
-        std::lock_guard<std::mutex> lock(this->mutex_);
+        std::lock_guard lock(this->mutex_);
         if(STD_MAX_QUEUE_SIZE <= this->queue_.size()) { this->queue_.pop(); }
         this->queue_.push(msg);
     }
 
     void QueueMsg::push(Message && msg) {
-        std::lock_guard<std::mutex> lock(this->mutex_);
+        std::lock_guard lock(this->mutex_);
         if(STD_MAX_QUEUE_SIZE <= this->queue_.size()) { this->queue_.pop(); }
         this->queue_.emplace(std::move(msg));
     }
 
     Message QueueMsg::pop() {
-        std::lock_guard<std::mutex> lock(this->mutex_);
+        std::lock_guard lock(this->mutex_);
         if (this->queue_.empty()) {
-            const Message msg = Message(0, {});
-            return msg;
-        } else {
-            const Message msg = queue_.front();
-            this->queue_.pop();
+            const auto msg = Message(0, {});
             return msg;
         }
+        const Message msg = queue_.front();
+        this->queue_.pop();
+        return msg;
     }
 
     size_t QueueMsg::size() {
-        std::lock_guard<std::mutex> lock(this->mutex_);
+        std::lock_guard lock(this->mutex_);
         return this->queue_.size();
     }
 
     bool QueueMsg::empty() {
-        std::lock_guard<std::mutex> lock(this->mutex_);
+        std::lock_guard lock(this->mutex_);
         return this->queue_.empty();
     }
 
@@ -54,7 +53,7 @@ namespace robomaster_can_controller {
     }
 
     void QueueMsg::clear() {
-        std::lock_guard<std::mutex> lock(this->mutex_);
+        std::lock_guard lock(this->mutex_);
         while(!this->queue_.empty()) { this->queue_.pop(); }
     }
 } // namespace robomaster_can_controller

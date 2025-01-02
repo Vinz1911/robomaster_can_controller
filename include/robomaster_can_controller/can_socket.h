@@ -10,9 +10,6 @@
 #ifndef ROBOMASTER_CAN_CONTROLLER_CAN_SOCKET_H_
 #define ROBOMASTER_CAN_CONTROLLER_CAN_SOCKET_H_
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/ioctl.h>
 #include <net/if.h>
 #include <unistd.h> 
 
@@ -22,10 +19,9 @@
 
 namespace robomaster_can_controller {
     /**
-     * @brief This class manage the the io of the can bus.
+     * @brief This class manage the io of the can bus.
      */
     class CanSocket {
-    private:
         /**
          * @brief The Socket for the CanBus.
          */
@@ -34,7 +30,7 @@ namespace robomaster_can_controller {
         /**
          * @brief Struct to request the Can Bus interface.
          */
-        struct ifreq ifr_;
+        ifreq ifr_;
 
         /**
          * @brief Struct for the Can Bus address.
@@ -43,7 +39,7 @@ namespace robomaster_can_controller {
 
     public:
         /**
-         * @brief Construct the the CanSocket object.
+         * @brief Construct the CanSocket object.
          */
         CanSocket(/* args */);
 
@@ -58,14 +54,14 @@ namespace robomaster_can_controller {
          * @param seconds Timeout in seconds.
          * @param microseconds Timeouts in microseconds.
          */
-        void set_timeout(const size_t seconds, const size_t microseconds);
+        void set_timeout(size_t seconds, size_t microseconds);
 
         /**
          * @brief Set the timeout for the reading the can socket.
          *
          * @param seconds Float in seconds.
          */
-        void set_timeout(const double seconds);
+        void set_timeout(double seconds);
 
         /**
          * @brief Open the can socket by the given can interface name.
@@ -85,7 +81,7 @@ namespace robomaster_can_controller {
          * @return true, by success.
          * @return false, when failed.
          */
-        bool send_frame(const uint32_t id, const uint8_t data[8], const size_t length);
+        bool send_frame(uint32_t id, const uint8_t data[8], size_t length);
 
         /**
          * @brief Read the next incoming can frame from the can socket. This function is blocking until the timeout is reached.

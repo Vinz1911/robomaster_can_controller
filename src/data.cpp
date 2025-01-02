@@ -8,11 +8,10 @@
 // Copyright (c) 2024 Vinzenz Weist
 
 #include "robomaster_can_controller/data.h"
-
 #include <iostream>
 
 namespace robomaster_can_controller {
-    struct DataPosition decode_data_position(const size_t index, const Message &msg) {
+    DataPosition decode_data_position(const size_t index, const Message &msg) {
         DataPosition data;
         // Check the length of the index and then fill the data.
         if (index + 12 <= msg.get_payload().size()) {
@@ -24,7 +23,7 @@ namespace robomaster_can_controller {
         return data;
     }
 
-    struct DataEsc decode_data_esc(const size_t index, const Message &msg) {
+    DataEsc decode_data_esc(const size_t index, const Message &msg) {
         DataEsc data;
 
         // Check the length of the index and then fill the data.
@@ -34,8 +33,8 @@ namespace robomaster_can_controller {
             data.speed[2]      = msg.get_value_int16(index + 4);
             data.speed[3]      = msg.get_value_int16(index + 6);
             data.angle[0]      = msg.get_value_int16(index + 8);
-            data.angle[1]      = -msg.get_value_int16(index + 10);
-            data.angle[2]      = -msg.get_value_int16(index + 12);
+            data.angle[1]      = msg.get_value_int16 (index + 10);
+            data.angle[2]      = msg.get_value_int16 (index + 12);
             data.angle[3]      = msg.get_value_int16(index + 14);
             data.time_stamp[0] = msg.get_value_uint32(index + 16);
             data.time_stamp[1] = msg.get_value_uint32(index + 20);
@@ -50,7 +49,7 @@ namespace robomaster_can_controller {
         return data;
     }
 
-    struct DataImu decode_data_imu(const size_t index, const Message &msg) {
+    DataImu decode_data_imu(const size_t index, const Message &msg) {
         DataImu data;
 
         // Check the length of the index and then fill the data.
@@ -66,7 +65,7 @@ namespace robomaster_can_controller {
         return data;
     }
 
-    struct DataAttitude decode_data_attitude(const size_t index, const Message &msg) {
+    DataAttitude decode_data_attitude(const size_t index, const Message &msg) {
         DataAttitude data;
 
         // Check the length of the index and then fill the data.
@@ -79,7 +78,7 @@ namespace robomaster_can_controller {
         return data;
     }
 
-    struct DataBattery decode_data_battery(const size_t index, const Message &msg) {
+    DataBattery decode_data_battery(const size_t index, const Message &msg) {
         DataBattery data;
 
         // Check the length of the index and then fill the data.
@@ -94,7 +93,7 @@ namespace robomaster_can_controller {
         return data;
     }
 
-    struct DataVelocity decode_data_velocity(const size_t index, const Message &msg) {
+    DataVelocity decode_data_velocity(const size_t index, const Message &msg) {
         DataVelocity data;
 
         // Check the length of the index and then fill the data.
