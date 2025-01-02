@@ -60,8 +60,6 @@ int main() {
     // Enable the robomaster to execute drive commands.
     robomaster.set_work_mode(true);
 
-    robomaster.set_wheel_rpm(100, 100, 100, 100);
-
     // CAUTION: Sleep for a short period to not overfill the can bus communication.
     std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
