@@ -18,7 +18,7 @@
 
 namespace robomaster_can_controller {
     static constexpr size_t STD_MAX_ERROR_COUNT = 3;
-    static constexpr std::chrono::milliseconds STD_HEARTBEAT_TIME =  std::chrono::milliseconds(10);
+    static constexpr auto STD_HEARTBEAT_TIME =  std::chrono::milliseconds(10);
 
     Handler::Handler()
         : flag_initialised_(false),
@@ -68,7 +68,7 @@ namespace robomaster_can_controller {
         uint8_t frame_data[8] = {};
         for (size_t i = 0; i < data.size(); i += 8) {
             const size_t frame_length = std::min(static_cast<size_t>(8), data.size() - i);
-            std::copy_n(data.begin() + i, frame_length, frame_data);
+            std::copy_n(data.begin() + static_cast<long>(i), frame_length, frame_data);
             if(!this->can_socket_.send_frame(id, frame_data, frame_length)) { return false; }
         }
         return true;
