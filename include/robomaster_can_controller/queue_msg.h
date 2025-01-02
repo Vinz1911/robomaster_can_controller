@@ -69,7 +69,7 @@ namespace robomaster_can_controller {
          *
          * @return size_t as maximal queue size.
          */
-        size_t max_queue_size() const;
+        size_t max_queue_size();
 
         /**
          * @brief True when the queue is empty.

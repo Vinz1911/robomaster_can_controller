@@ -15,7 +15,7 @@
 
 namespace robomaster_can_controller {
     RoboMaster::RoboMaster():counter_drive_(0), counter_led_(0), counter_gimbal_(0), counter_blaster_(0) {
-        this->handler_.bind_callback([this]<typename T0>(T0 && PH1) { decodeDataRoboMasterState(std::forward<T0>(PH1)); });
+        this->handler_.bind_callback([this]<typename T0>(T0 && PH1) { decode_state(std::forward<T0>(PH1)); });
     }
 
     RoboMaster::~RoboMaster() = default;
@@ -24,21 +24,19 @@ namespace robomaster_can_controller {
         this->callback_data_robomaster_state_ = std::move(func);
     }
 
-    void RoboMaster::bootSequence() {
+    void RoboMaster::boot_sequence() {
         this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 0, { 0x40, 0x48, 0x04, 0x00, 0x09, 0x00 }));
         this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 1, { 0x40, 0x48, 0x01, 0x09, 0x00, 0x00, 0x00, 0x03 }));
         this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0x0309, 2, { 0x40, 0x48, 0x03, 0x09, 0x01, 0x03, 0x00, 0x07, 0xa7, 0x02, 0x29, 0x88, 0x03, 0x00, 0x02, 0x00, 0x66, 0x3e, 0x3e, 0x4c, 0x03, 0x00, 0x02, 0x00, 0xfb, 0xdc, 0xf5, 0xd7, 0x03, 0x00, 0x02, 0x00, 0x09, 0xa3, 0x26, 0xe2, 0x03, 0x00, 0x02, 0x00, 0xf4, 0x1d, 0x1c, 0xdc, 0x03, 0x00, 0x02, 0x00, 0x42, 0xee, 0x13, 0x1d, 0x03, 0x00, 0x02, 0x00, 0xb3, 0xf7, 0xe6, 0x47, 0x03, 0x00, 0x02, 0x00, 0x32, 0x00 }));
     }
 
-    void RoboMaster::enable_torque() {
-        this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0xc309, 0, { 0x40, 0x3f, 0x19, 0x01 }));
+    void RoboMaster::set_work_mode(const bool mode) {
+        Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0xc309, 0, { 0x40, 0x3f, 0x19, 0x00 });
+        msg.set_value_uint8(3, mode);
+        this->handler_.push_message(std::move(msg));
     }
 
-    void RoboMaster::disable_torque() {
-        this->handler_.push_message(Message(DEVICE_ID_INTELLI_CONTROLLER, 0xc309, 0, { 0x40, 0x3f, 0x19, 0x00 }));
-    }
-
-    void RoboMaster::brake() {
+    void RoboMaster::set_brake() {
         const Message msg(DEVICE_ID_INTELLI_CONTROLLER, 0xc3c9, this->counter_drive_++, { 0x40, 0x3F, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
         this->handler_.push_message(std::move(msg));
     }
@@ -90,7 +88,7 @@ namespace robomaster_can_controller {
 
     bool RoboMaster::init(const std::string &can_interface) {
         if (this->handler_.init(can_interface)) {
-            this->bootSequence(); return true;
+            this->boot_sequence(); return true;
         } return false;
     }
 
@@ -157,7 +155,7 @@ namespace robomaster_can_controller {
         this->set_led_flash(mask, r, g, b, freq, freq);
     }
 
-    void RoboMaster::decodeDataRoboMasterState(const Message &msg) {
+    void RoboMaster::decode_state(const Message &msg) {
         if (this->callback_data_robomaster_state_) {
             DataRoboMasterState data;
             data.velocity   = decode_data_velocity(27, msg);

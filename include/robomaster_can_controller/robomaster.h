@@ -60,14 +60,14 @@ namespace robomaster_can_controller {
         /**
          * @brief The boot sequence to configure the RoboMasterState messages.
          */
-        void bootSequence();
+        void boot_sequence();
 
         /**
-         * @brief Decode the RoboMasterState message and trigger the callbackfunction.
+         * @brief Decode the RoboMasterState message and trigger the callback function.
          *
          * @param msg The RoboMasterState message.
          */
-        void decodeDataRoboMasterState(const Message &msg);
+        void decode_state(const Message &msg);
 
     public:
         /**
@@ -80,14 +80,9 @@ namespace robomaster_can_controller {
         ~RoboMaster();
 
         /**
-         * @brief Enable the RoboMaster to drive. Give current to the motor.
+         * @brief Enable or Disable the work mode of the RoboMaster chassis.
          */
-        void enable_torque();
-
-        /**
-         * @brief Disable the RoboMaster to drive. Take the current of the motor.
-         */
-        void disable_torque();
+        void set_work_mode(bool mode);
 
         /**
          * @brief Drive the RoboMaster with the given velocities.
@@ -124,7 +119,7 @@ namespace robomaster_can_controller {
         /**
          * @brief Stop the RoboMaster with zero velocities.
          */
-        void brake();
+        void set_brake();
 
         /**
          * @brief Set the LED off by the given mask.

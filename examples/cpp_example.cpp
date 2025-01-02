@@ -58,7 +58,7 @@ int main() {
     robomaster.set_callback(callback);
 
     // Enable the robomaster to execute drive commands.
-    robomaster.enable_torque();
+    robomaster.set_work_mode(true);
 
     robomaster.set_wheel_rpm(100, 100, 100, 100);
 
@@ -101,7 +101,7 @@ int main() {
     }
 
     // Stop the wheel of the robomaster.
-    robomaster.brake();
+    robomaster.set_brake();
 
     // Use the LED Flash of all LED.
     robomaster.set_led_flash(LED_MASK_ALL, 255, 0, 0, float(0.4), float(0.1));
@@ -112,6 +112,6 @@ int main() {
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     // Disable the robomaster after finish the example.
-    robomaster.disable_torque();
+    robomaster.set_work_mode(false);
     return 0;
 }

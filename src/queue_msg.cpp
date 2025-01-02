@@ -47,7 +47,7 @@ namespace robomaster_can_controller {
         return this->queue_.empty();
     }
 
-    size_t QueueMsg::max_queue_size() const {
+    size_t QueueMsg::max_queue_size() {
         return STD_MAX_QUEUE_SIZE;
     }
 
