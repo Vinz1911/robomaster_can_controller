@@ -1,8 +1,7 @@
-// Copyright Fraunhofer IML
+// Copyright (c) 2024 Vinzenz Weist
 //
 // Licensed under the MIT License.
-// For details on the licensing terms, see the LICENSE file.
-// SPDX-License-Identifier: MIT
+// For details on the licensing terms, see the LICENSE file. Copyright refers to Fraunhofer IML
 
 #include <iostream>
 #include "robomaster_can_controller/robomaster.h"

@@ -1,11 +1,7 @@
-// Copyright Fraunhofer IML
+// Copyright (c) 2024 Vinzenz Weist
 //
 // Licensed under the MIT License.
-// For details on the licensing terms, see the LICENSE file.
-// SPDX-License-Identifier: MIT
-
-// Modifications by Vinzenz Weist
-// Copyright (c) 2024 Vinzenz Weist
+// For details on the licensing terms, see the LICENSE file. Copyright refers to Fraunhofer IML
 
 #include "robomaster_can_controller/queue_msg.h"
 
